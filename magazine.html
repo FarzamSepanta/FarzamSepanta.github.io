@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Magazine Articles - Farzam Sepanta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="magazine.css">
+</head>
+<body>
+    <a href="index.html" class="back-button">
+        <span>←</span>
+        <span>Back</span>
+    </a>
+
+    <div class="background-container"></div>
+
+    <div class="magazine-overlay">
+        <div class="magazine-content">
+            <h1>Magazine Articles</h1>
+            <div class="magazine-grid">
+                <!-- Your magazine articles will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function createMagazineCard(article) {
+            return `
+                <div class="article-card">
+                    <div class="article-content">
+                        <h3>${article.title}</h3>
+                        <p>${article.authors} (${article.year})</p>
+                        <span class="journal-name">${article.journal}</span>
+                        <a href="${article.url}" target="_blank" class="read-more">Read Article →</a>
+                    </div>
+                </div>
+            `;
+        }
+
+        const magazineArticles = [
+            {
+                title: "Smart Tech Would Make Your Office Greener",
+                authors: "F. Sepanta, L. O'Brien",
+                journal: "Scientific American",
+                year: 2024,
+                url: "https://www.scientificamerican.com/article/smart-tech-would-make-your-office-greener/"
+            },
+            {
+                title: "How virtual reality technologies are shaping an inclusive future for architecture",
+                authors: "F. Sepanta",
+                journal: "The Conversation",
+                year: 2025,
+                url: "https://theconversation.com/profiles/farzam-sepanta-1386475/articles"
+            },
+            {
+                title: "Artificial intelligence can support architects but lacks empathy and ethics",
+                authors: "F. Sepanta",
+                journal: "The Conversation",
+                year: 2023,
+                url: "https://theconversation.com/artificial-intelligence-can-support-architects-but-lacks-empathy-and-ethics-207999"
+            },
+            {
+                title: "Empty buildings consume more energy than you think",
+                authors: "F. Sepanta",
+                journal: "The Conversation",
+                year: 2022,
+                url: "https://theconversation.com/empty-buildings-consume-more-energy-than-you-think"
+            },
+            {
+                title: "No longer freezing: Working from home can make workplaces more comfortable",
+                authors: "F. Sepanta, L. Arpan, L. O'Brien, M. Touchie",
+                journal: "The Conversation",
+                year: 2022,
+                url: "https://theconversation.com/no-longer-freezing-working-from-home-can-make-workplaces-more-comfortable-190131"
+            },
+            {
+                title: "Drawn to bustling markets, shops or malls this holiday season? Good vibe could explain it",
+                authors: "F. Sepanta",
+                journal: "The Conversation",
+                year: 2022,
+                url: "https://theconversation.com/drawn-to-bustling-markets-shops-or-malls-this-holiday-season-good-vibe-could-explain-it-196089"
+            },
+            {
+                title: "5 senses? In fact, architects say there are 7 ways we perceive our environments",
+                authors: "F. Sepanta",
+                journal: "The Conversation",
+                year: 2022,
+                url: "https://theconversation.com/5-senses-in-fact-architects-say-there-are-7-ways-we-perceive-our-environments-192561"
+            }
+        ].sort((a, b) => b.year - a.year);
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.magazine-grid');
+            container.innerHTML = magazineArticles.map(createMagazineCard).join('');
+        });
+    </script>
+</body>
+</html>

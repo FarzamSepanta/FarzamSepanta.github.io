@@ -63,13 +63,12 @@ body {
 
 .container {
     text-align: center;
-    padding: 2rem;
+    padding: 2rem 2rem 6rem 2rem;
     max-width: 800px;
     background-color: rgba(255, 255, 255, 0.9);
     border-radius: 10px;
     backdrop-filter: blur(5px);
     position: relative;
-    margin-bottom: 4rem;
 }
 
 h1 {
@@ -99,7 +98,7 @@ nav a {
 }
 
 nav a:hover {
-    color: #666;
+    color: #ec7a1c;
 }
 
 .motto {
@@ -489,5 +488,91 @@ nav a:hover {
 
     .media-card.featured {
         grid-column: span 1;
+    }
+}
+
+.about-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    border-radius: 50px 0 0 50px;
+    animation: expandOverlay 1s ease-out forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.about-content {
+    opacity: 0;
+    transform: translateX(50px);
+    animation: fadeInContent 0.8s ease-out 0.5s forwards;
+    padding: 2rem;
+    max-width: 800px;
+    margin-right: 2rem;
+}
+
+.intro-text {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
+    line-height: 1.5;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+@keyframes expandOverlay {
+    from {
+        width: 0;
+    }
+    to {
+        width: 70%;
+    }
+}
+
+@keyframes fadeInContent {
+    to {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Add to your existing animations */
+@keyframes revealGrayReverse {
+    0% {
+        clip-path: inset(0 0 0 0);
+    }
+    100% {
+        clip-path: inset(0 0 0 100%);
+    }
+}
+
+@keyframes slideLineReverse {
+    0% {
+        left: 100%;
+    }
+    100% {
+        left: 0;
+    }
+}
+
+@keyframes revealColorReverse {
+    0% {
+        clip-path: inset(0 0 0 0);
+    }
+    100% {
+        clip-path: inset(0 100% 0 0);
+    }
+}
+
+@keyframes slideLineBackward {
+    0% {
+        right: 0;
+    }
+    100% {
+        right: 100%;
     }
 } 

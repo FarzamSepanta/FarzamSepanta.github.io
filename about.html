@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About - Farzam Sepanta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="about.css">
+</head>
+<body>
+    <a href="index.html" class="back-button">
+        <span>←</span>
+        <span>Back</span>
+    </a>
+
+    <div class="background-container"></div>
+
+    <div class="about-overlay">
+        <div class="about-content">
+            <p class="intro-text">Hi, I'm Farzam;</p>
+            <p class="intro-text">Researcher, educator, and decarbonization expert committed to shaping a net zero future. </p>
+            <p class="intro-text">I led the research on sustainability of hybrid work for the Government of Canada </p>
+            <p class="intro-text">My work bridges academia, industry, and policy to help communities and organizations <span class="highlight">transition to net-zero with the highest NPV possible</span>.</p>
+            <div class="experience-section">
+                <p>My expertise include:</p>
+                <div class="experience-grid">
+                    <div class="experience-item">
+                        <span class="bullet">></span>
+                        Public engagement
+                    </div>
+                    <div class="experience-item">
+                        <span class="bullet">></span>
+                        Fundraising and grant writing
+                    </div>
+                    <div class="experience-item">
+                        <span class="bullet">></span>
+                        Decarbonization and net zero planning
+                    </div>
+                    <div class="experience-item">
+                        <span class="bullet">></span>
+                        Climate change mitigation
+                    </div>
+                    <div class="experience-item">
+                        <span class="bullet">></span>
+                        Data analysis and visualization
+                    </div>
+                    <div class="experience-item">
+                        <span class="bullet">></span>
+                        Building science and LCA
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Check if we came from a transition
+        if(window.location.search.includes('animate=true')) {
+            // Start all animations immediately
+            document.querySelector('.slider-line').style.animation = 'slideLineBackward 2s ease-out forwards';
+            document.querySelector('.about-overlay').style.animation = 'expandOverlay 2s ease-out forwards';
+            document.querySelector('.about-content').style.animation = 'fadeInContent 1.5s ease-out forwards';
+        }
+
+        // Add this to trigger the color change with the overlay
+        window.onload = function() {
+            document.querySelector('.background-container').classList.add('color-reveal');
+        }
+    </script>
+</body>
+</html>

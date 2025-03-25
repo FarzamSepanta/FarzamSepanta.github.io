@@ -1,0 +1,220 @@
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('images/LandingImage.jpg');
+    background-position: center;
+    background-size: cover;
+    filter: grayscale(1);
+    animation: removeGrayscale 2s ease-out forwards;
+}
+
+.back-button {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    color: white;
+    text-decoration: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeInContent 0.8s ease-out 1s forwards;
+    z-index: 10;
+}
+
+.back-button:hover {
+    color: #ec7a1c;
+}
+
+.about-overlay {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    border-radius: 50px 0 0 50px;
+    animation: expandOverlay 2s ease-out forwards;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+}
+
+.about-content {
+    opacity: 0;
+    transform: translateX(50px);
+    animation: fadeInContent 1.5s ease-out forwards;
+    padding: 2rem;
+    max-width: 800px;
+    margin-right: 2rem;
+}
+
+.intro-text {
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 2rem;
+    line-height: 1.5;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    display: inline-block;
+    text-align: justify;
+}
+
+/* Add this class for lines that should be justified */
+.intro-text > span {
+    display: inline;
+}
+
+/* Lines with only two words will naturally stay left-aligned */
+
+@keyframes expandOverlay {
+    0% {
+        width: 0;
+    }
+    100% {
+        width: 70%;
+    }
+}
+
+@keyframes fadeInContent {
+    0% {
+        opacity: 0;
+        transform: translateX(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateX(0);
+    }
+}
+
+/* Add this for the back button */
+.back-button {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    color: white;
+    text-decoration: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeInContent 0.8s ease-out 1s forwards;
+    z-index: 10;
+}
+
+.back-button:hover {
+    color: #ec7a1c;
+}
+
+/* Modify the background container for About page */
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('images/LandingImage.jpg');
+    background-position: center;
+    background-size: cover;
+    filter: grayscale(1);
+}
+
+/* Add this class to trigger the color change */
+.color-reveal {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: 0;
+    height: 100%;
+    background-image: url('images/LandingImage.jpg');
+    background-position: center;
+    background-size: cover;
+    animation: revealColor 2s ease-out forwards;
+    z-index: -1;
+}
+
+/* Remove or modify grayscale-reveal for About page */
+.grayscale-reveal {
+    display: none; /* We don't want the grey effect on about page */
+}
+
+.slider-line {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 2px;
+    height: 100%;
+    background: white;
+    box-shadow: 0 0 10px rgba(255,255,255,0.8);
+    z-index: 1;
+    animation: slideLineBackward 2s ease-out forwards;
+}
+
+@keyframes slideLineBackward {
+    0% {
+        right: 0;
+    }
+    100% {
+        right: 100%;
+    }
+}
+
+@keyframes revealColor {
+    0% {
+        mask-image: linear-gradient(to left, transparent 0%, black 0%);
+        -webkit-mask-image: linear-gradient(to left, transparent 0%, black 0%);
+    }
+    100% {
+        mask-image: linear-gradient(to left, transparent 70%, black 70%);
+        -webkit-mask-image: linear-gradient(to left, transparent 70%, black 70%);
+    }
+}
+
+@keyframes removeGrayscale {
+    0% {
+        filter: grayscale(1);
+    }
+    100% {
+        filter: grayscale(0);
+    }
+}
+
+.experience-section {
+    margin-top: 2rem;
+    color: white;
+    font-family: 'Roboto', sans-serif;
+    font-size: 1.8rem;
+}
+
+.experience-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1.5rem;
+    margin-top: 1rem;
+}
+
+.experience-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    font-size: 1.5rem;
+}
+
+.bullet {
+    color: #ec7a1c; /* Orange color */
+    font-weight: bold;
+}
+
+.highlight {
+    color: #ec7a1c; /* Orange color */
+}

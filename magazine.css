@@ -1,0 +1,109 @@
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('images/LandingImage.jpg');
+    background-position: center;
+    background-size: cover;
+    filter: grayscale(1);
+    animation: removeGrayscale 2s ease-out forwards;
+}
+
+.back-button {
+    position: fixed;
+    top: 2rem;
+    left: 2rem;
+    color: white;
+    text-decoration: none;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    opacity: 0;
+    animation: fadeInContent 0.8s ease-out 1s forwards;
+    z-index: 10;
+}
+
+.magazine-overlay {
+    position: fixed;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    height: 100vh;
+    background: rgba(0, 0, 0, 0.3);
+    backdrop-filter: blur(5px);
+    animation: slideUp 2s ease-out forwards;
+}
+
+.magazine-content {
+    padding: 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    color: white;
+    opacity: 0;
+    animation: fadeIn 1.5s ease-out 1s forwards;
+}
+
+.magazine-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-top: 2rem;
+}
+
+.magazine-item {
+    background: rgba(255, 255, 255, 0.1);
+    padding: 2rem;
+    border-radius: 10px;
+    transition: transform 0.3s ease;
+}
+
+.magazine-item:hover {
+    transform: translateY(-5px);
+}
+
+.magazine-date {
+    color: #ec7a1c;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+}
+
+.read-more {
+    color: #ec7a1c;
+    text-decoration: none;
+    font-family: 'Bebas Neue', sans-serif;
+    margin-top: 1rem;
+    display: inline-block;
+}
+
+@keyframes slideUp {
+    0% {
+        top: 100%;
+    }
+    100% {
+        top: 0;
+    }
+}
+
+@keyframes fadeIn {
+    0% {
+        opacity: 0;
+    }
+    100% {
+        opacity: 1;
+    }
+}
+
+@keyframes removeGrayscale {
+    0% {
+        filter: grayscale(1);
+    }
+    100% {
+        filter: grayscale(0);
+    }
+}

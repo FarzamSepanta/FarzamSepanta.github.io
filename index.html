@@ -16,21 +16,21 @@
     <div class="container">
         <header>
             <h1>Farzam Sepanta</h1>
-            <p class="subtitle">Building Science Researcher & Net-Zero Advocate</p>
+            <p class="subtitle">PhD in Building Engineering & Net-Zero Transition Researcher</p>
         </header>
 
         <nav>
             <ul>
                 <li><a href="about.html">About</a></li>
-                <li><a href="research.html">Research</a></li>
-                <li><a href="publications.html">Publications</a></li>
+                <li><a href="https://scholar.google.com/citations?user=2Ut5XB0AAAAJ&hl=en&oi=ao" target="_blank">Research</a></li>
+                <li><a href="magazine.html">Magazine</a></li>
                 <li><a href="media.html">Media</a></li>
-                <li><a href="contact.html">Connect</a></li>
+                <li><a href="https://www.linkedin.com/in/farzam-sepanta-0277a421a/" target="_blank">Connect</a></li>
             </ul>
         </nav>
+        
+        <div class="motto"></div>
     </div>
-    
-    <div class="motto"></div>
 
     <script>
         const motto = "The race to net zero needs all of us";
@@ -42,6 +42,18 @@
             span.textContent = letter === ' ' ? '\u00A0' : letter;
             span.style.animationDelay = `${(index * 0.05) + 0.5}s`;
             mottoDiv.appendChild(span);
+        });
+
+        document.querySelector('a[href="about.html"]').addEventListener('click', function(e) {
+            e.preventDefault();
+            
+            // Create a temporary div for transition
+            const transition = document.createElement('div');
+            transition.className = 'page-transition';
+            document.body.appendChild(transition);
+            
+            // Immediately navigate to about.html with a special parameter
+            window.location.href = 'about.html?animate=true';
         });
     </script>
 </body>

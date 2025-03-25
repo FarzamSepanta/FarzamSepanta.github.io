@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Media Appearances - Farzam Sepanta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="media.css">
+</head>
+<body>
+    <a href="index.html" class="back-button">
+        <span>←</span>
+        <span>Back</span>
+    </a>
+
+    <div class="background-container"></div>
+
+    <div class="media-overlay">
+        <div class="media-content">
+            <h1>Media Appearances</h1>
+            <div class="media-grid">
+                <!-- Your media appearances will be inserted here -->
+            </div>
+        </div>
+    </div>
+
+    <script>
+        const mediaAppearances = [
+            {
+                title: "CBC News Interview",
+                type: "TV",
+                host: "Omar Dabaghi-Pacheco",
+                outlet: "CBC News",
+                description: "One-on-one TV interview on telework and energy impacts",
+                url: "https://www.cbc.ca/news/canada/ottawa/",
+                featured: true
+            },
+            {
+                title: "The National",
+                type: "TV",
+                outlet: "CBC",
+                description: "Extended coverage on telework research",
+                url: "https://www.cbc.ca/news/thenational",
+                featured: true
+            },
+            // ... rest of your media appearances
+        ];
+
+        function createMediaCard(media) {
+            return `
+                <div class="media-card ${media.featured ? 'featured' : ''}">
+                    <div class="media-content">
+                        <span class="media-type">${media.type}</span>
+                        <h3>${media.title}</h3>
+                        ${media.outlet ? `<p class="media-outlet">${media.outlet}</p>` : ''}
+                        <p class="media-details">
+                            ${media.host ? `With ${media.host}` : ''}
+                            ${media.description ? `<br>${media.description}` : ''}
+                        </p>
+                        ${media.url ? `
+                            <a href="${media.url}" target="_blank" class="watch-link">
+                                Watch/Listen →
+                            </a>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        document.addEventListener('DOMContentLoaded', function() {
+            const container = document.querySelector('.media-grid');
+            container.innerHTML = mediaAppearances.map(createMediaCard).join('');
+        });
+    </script>
+</body>
+</html>
