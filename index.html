@@ -293,7 +293,8 @@
                 doi: "10.1016/j.jobe.2024.109438",
                 type: "journal"
             },
-        ];
+            
+        ].sort((a, b) => b.year - a.year); // This will sort by year, newest first
 
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('papers-container');
