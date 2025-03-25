@@ -129,15 +129,8 @@
             <!-- Media Appearances Section -->
             <section class="section" id="media-appearances">
                 <h2>Media Appearances</h2>
-                <div class="media-grid">
-                    <div class="media-card">
-                        <div class="media-content">
-                            <h4>CBC News Interview</h4>
-                            <p class="media-details">One-on-one TV interview with Omar Dabaghi-Pacheco</p>
-                            <a href="#" class="media-link">Watch Interview</a>
-                        </div>
-                    </div>
-                    <!-- Add other media appearances similarly -->
+                <div class="media-grid" id="media-container">
+                    <!-- Media cards will be inserted here -->
                 </div>
             </section>
 
@@ -541,6 +534,108 @@
 
         const magazineContainer = document.getElementById('magazine-container');
         magazineContainer.innerHTML = magazineArticles.map(createMagazineCard).join('');
+
+        // Add this after your papers and magazine arrays
+        const mediaAppearances = [
+            {
+                title: "CBC News Interview",
+                type: "TV",
+                host: "Omar Dabaghi-Pacheco",
+                outlet: "CBC News",
+                description: "One-on-one TV interview on telework and energy impacts",
+                url: "https://www.cbc.ca/news/canada/ottawa/",
+                featured: true
+            },
+            {
+                title: "The National",
+                type: "TV",
+                outlet: "CBC",
+                description: "Extended coverage on telework research",
+                url: "https://www.cbc.ca/news/thenational",
+                featured: true
+            },
+            {
+                title: "Global News BC Interview",
+                type: "TV",
+                host: "Sonia Sunger",
+                outlet: "Global News BC",
+                description: "One-on-one TV interview on building energy efficiency",
+                featured: true
+            },
+            {
+                title: "Ontario Today",
+                type: "Radio",
+                host: "Rebecca Zandbergen",
+                outlet: "CBC Radio",
+                description: "45-minute interview on the future of work",
+                url: "https://www.cbc.ca/listen/live-radio/1-92-ontario-today",
+                duration: "45 minutes"
+            },
+            {
+                title: "Future of Telework",
+                type: "Interview",
+                host: "Yonah Budd",
+                description: "Discussion on the future of telework and its implications"
+            },
+            {
+                title: "Ottawa Now",
+                type: "Radio",
+                host: "Kristy Cameron",
+                outlet: "580 CFRA with CTV Ottawa",
+                description: "Discussion on hybrid work models"
+            },
+            {
+                title: "Afternoons",
+                type: "Radio",
+                host: "Angela Kokott",
+                outlet: "QR Calgary",
+                description: "Interview on workplace comfort and energy efficiency"
+            },
+            {
+                title: "Ottawa at Work",
+                type: "Radio",
+                host: "Patricia Boal",
+                description: "Discussion on building energy and workplace dynamics"
+            },
+            {
+                title: "Building Impact Series",
+                type: "Radio",
+                outlet: "630 CHED radio Edmonton",
+                description: "Series of five interviews on how working from home can make workplaces more comfortable",
+                featured: true
+            },
+            {
+                title: "Building Perception",
+                type: "Radio",
+                host: "Kevin Usselman",
+                outlet: "770 CHQR radio",
+                description: "Interview on how buildings impact our perception"
+            }
+        ].sort((a, b) => (b.featured === a.featured) ? 0 : b.featured ? 1 : -1);
+
+        function createMediaCard(media) {
+            return `
+                <div class="media-card ${media.featured ? 'featured' : ''}">
+                    <div class="media-content">
+                        <span class="media-type">${media.type}</span>
+                        <h4>${media.title}</h4>
+                        ${media.outlet ? `<p class="media-outlet">${media.outlet}</p>` : ''}
+                        <p class="media-details">
+                            ${media.host ? `With ${media.host}` : ''}
+                            ${media.description ? `<br>${media.description}` : ''}
+                        </p>
+                        ${media.url ? `
+                            <a href="${media.url}" target="_blank" class="media-link">
+                                Watch/Listen
+                            </a>
+                        ` : ''}
+                    </div>
+                </div>
+            `;
+        }
+
+        const mediaContainer = document.getElementById('media-container');
+        mediaContainer.innerHTML = mediaAppearances.map(createMediaCard).join('');
     </script>
 </body>
 </html> 
