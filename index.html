@@ -3,148 +3,163 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farzam Sepanta - Portfolio</title>
+    <title>Farzam Sepanta - Building Science Researcher</title>
     <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
 </head>
 <body>
     <div class="container">
-        <!-- Left Sidebar -->
         <aside class="sidebar">
             <div class="profile">
                 <img src="images/profile.jpg" alt="Farzam Sepanta" class="profile-img">
                 <h1>Farzam Sepanta</h1>
-                <p class="title">Computer Science Professional</p>
+                <p class="title">Building Science Researcher</p>
+                <p class="subtitle">PhD Candidate @ Carleton University</p>
             </div>
             
             <div class="contact-info">
                 <h2>Contact</h2>
                 <ul>
-                    <li><i class="fas fa-envelope"></i> Farzam.Sepanta@Carleton.ca</li>
-                    <li><i class="fas fa-location-dot"></i> Ottawa, ON, Canada</li>
+                    <li><i class="fas fa-envelope"></i> FarzamSepanta@cmail.carleton.ca</li>
+                    <li><i class="fas fa-phone"></i> +1-343-297-6778</li>
+                    <li><i class="fas fa-map-marker-alt"></i> Ottawa, ON, Canada</li>
                 </ul>
+                <div class="metrics">
+                    <p>[Citations: 423, h-index: 9, i10-index: 9]</p>
+                    <p>Rate My Professor: 5/5</p>
+                </div>
             </div>
 
             <div class="social-links">
-                <a href="https://github.com/FarzamSepanta" target="_blank" class="social-icon"><i class="fab fa-github"></i></a>
-                <a href="https://www.linkedin.com/in/farzam-sepanta/" target="_blank" class="social-icon"><i class="fab fa-linkedin"></i></a>
+                <a href="#" class="social-icon"><i class="fas fa-graduation-cap"></i> Google Scholar</a>
+                <a href="#" class="social-icon"><i class="fab fa-linkedin"></i> LinkedIn</a>
             </div>
         </aside>
 
-        <!-- Main Content -->
         <main class="main-content">
-            <!-- Education Section -->
-            <section class="section" id="education">
-                <h2>Education</h2>
-                <div class="grid">
-                    <div class="card">
-                        <div class="card-content">
-                            <h3>PhD in Building Engineering</h3>
-                            <p>Carleton University</p>
-                            <p>2020 - 2025</p>
-                        </div>
-                    </div>
-                </div>
-            </section>
-
-            <!-- Research Section -->
-            <section class="section" id="research">
-                <h2>Research Projects</h2>
+            <section class="section" id="research-areas">
+                <h2>Research Areas</h2>
                 <div class="research-grid">
-                    <!-- Telework Research -->
-                    <div class="research-card" data-project="telework">
-                        <img src="images/telework.jpg" alt="Telework Research">
-                        <div class="research-card-content">
-                            <h3>Telework Impact Analysis</h3>
-                            <p>Quantitative assessment of teleworking impacts on emissions across homes, offices, transportation, and internet.</p>
-                            <a href="#" class="read-more">Learn More</a>
+                    <div class="research-card" data-area="telework">
+                        <div class="card-image">
+                            <img src="images/telework.jpg" alt="Telework Research">
                         </div>
-                    </div>
-
-                    <!-- Building Energy -->
-                    <div class="research-card" data-project="energy">
-                        <img src="images/building-energy.jpg" alt="Building Energy">
-                        <div class="research-card-content">
-                            <h3>Building Energy Optimization</h3>
-                            <p>Energy flows, climate impacts, and indoor environmental quality analysis.</p>
-                            <a href="#" class="read-more">Learn More</a>
-                        </div>
-                    </div>
-
-                    <!-- Add more research cards based on your projects -->
-                </div>
-            </section>
-
-            <!-- Projects Section -->
-            <section class="section" id="projects">
-                <h2>Projects</h2>
-                <div class="grid">
-                    <div class="card">
                         <div class="card-content">
-                            <h3>Research Project including quantifying emissions associated with telework</h3>
-                            <p>Worked with the federal government of Canada</p>
+                            <h3>Telework Impact Analysis</h3>
+                            <p>Quantifying environmental impacts across homes, offices, transportation, and ICT</p>
+                            <div class="card-stats">
+                                <span>4 Journal Papers</span>
+                                <span>12 Media Features</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="research-card" data-area="building-energy">
+                        <div class="card-image">
+                            <img src="images/building.jpg" alt="Building Energy">
+                        </div>
+                        <div class="card-content">
+                            <h3>Building Energy Optimization</h3>
+                            <p>Performance analysis and optimization for sustainable architecture</p>
+                            <div class="card-stats">
+                                <span>6 Journal Papers</span>
+                                <span>3 Conference Papers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="research-card" data-area="vr">
+                        <div class="card-image">
+                            <img src="images/vr.jpg" alt="Virtual Reality">
+                        </div>
+                        <div class="card-content">
+                            <h3>VR in Architecture</h3>
+                            <p>Extended reality applications in architectural education</p>
+                            <div class="card-stats">
+                                <span>2 Journal Papers</span>
+                                <span>2 Conference Papers</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="research-card" data-area="daylighting">
+                        <div class="card-image">
+                            <img src="images/daylight.jpg" alt="Daylighting">
+                        </div>
+                        <div class="card-content">
+                            <h3>Daylighting Studies</h3>
+                            <p>Window optimization and daylight analysis in buildings</p>
+                            <div class="card-stats">
+                                <span>3 Journal Papers</span>
+                                <span>1 Book Chapter</span>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
+
+            <!-- Project Details Modal -->
+            <div id="project-modal" class="modal">
+                <div class="modal-content">
+                    <span class="close">&times;</span>
+                    <div id="modal-body"></div>
+                </div>
+            </div>
         </main>
     </div>
 
-    <!-- Modal Template -->
-    <div class="modal" id="project-modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div id="modal-content"></div>
-        </div>
-    </div>
-
     <script>
-    document.addEventListener('DOMContentLoaded', function() {
-        const cards = document.querySelectorAll('.research-card');
-        const modal = document.getElementById('project-modal');
-        const modalContent = document.getElementById('modal-content');
-        const closeModal = document.querySelector('.close-modal');
+        // Add interactive functionality
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.research-card');
+            const modal = document.getElementById('project-modal');
+            const modalBody = document.getElementById('modal-body');
+            const closeBtn = document.querySelector('.close');
 
-        const projectDetails = {
-            telework: {
-                title: "Telework Impact Analysis",
-                description: `Comprehensive research on the environmental impact of teleworking...`,
-                publications: [
-                    "Sustainability of telework: Systematic quantification of the impact of teleworking on the energy use and emissions of offices and homes",
-                    "Interview study to uncover the energy use impacts and behaviours of teleworkers who relocated during COVID-19 in Canada"
-                ]
-            },
-            // Add more project details
-        };
+            const projectDetails = {
+                telework: {
+                    title: "Telework Impact Analysis",
+                    description: `Comprehensive research on environmental impacts of teleworking across multiple domains.`,
+                    publications: [
+                        "Sustainability of telework (Journal of Building Engineering, 2024)",
+                        "Interview study on teleworkers' behaviors (Architectural Science Review, 2023)",
+                        "Review of telework domains (Renewable and Sustainable Energy Reviews, 2023)"
+                    ],
+                    media: [
+                        "CBC News Interview",
+                        "Global News BC Feature",
+                        "Scientific American Article"
+                    ]
+                },
+                // Add other project details
+            };
 
-        cards.forEach(card => {
-            card.addEventListener('click', function() {
-                const project = this.dataset.project;
-                const details = projectDetails[project];
-                
-                modalContent.innerHTML = `
-                    <h2>${details.title}</h2>
-                    <p>${details.description}</p>
-                    <h3>Related Publications</h3>
-                    <ul>
-                        ${details.publications.map(pub => `<li>${pub}</li>`).join('')}
-                    </ul>
-                `;
-                
-                modal.style.display = 'block';
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const area = this.dataset.area;
+                    const details = projectDetails[area];
+                    modalBody.innerHTML = `
+                        <h2>${details.title}</h2>
+                        <p>${details.description}</p>
+                        <h3>Key Publications</h3>
+                        <ul>${details.publications.map(pub => `<li>${pub}</li>`).join('')}</ul>
+                        <h3>Media Coverage</h3>
+                        <ul>${details.media.map(item => `<li>${item}</li>`).join('')}</ul>
+                    `;
+                    modal.style.display = 'block';
+                });
             });
-        });
 
-        closeModal.addEventListener('click', function() {
-            modal.style.display = 'none';
-        });
-
-        window.addEventListener('click', function(e) {
-            if (e.target === modal) {
+            closeBtn.onclick = function() {
                 modal.style.display = 'none';
             }
+
+            window.onclick = function(event) {
+                if (event.target == modal) {
+                    modal.style.display = 'none';
+                }
+            }
         });
-    });
     </script>
 </body>
 </html> 
