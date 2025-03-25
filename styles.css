@@ -13,44 +13,82 @@
 }
 
 body {
-    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
-    line-height: 1.6;
-    color: #333;
-    background-color: #fff;
+    font-family: 'Roboto', sans-serif;
     min-height: 100vh;
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
+    position: relative;
+    color: #333;
+}
+
+.background-container {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: -1;
+    background-image: url('images/LandingImage.jpg');
+    background-position: center;
+    background-size: cover;
+}
+
+.grayscale-reveal {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('images/LandingImage.jpg');
+    background-position: center;
+    background-size: cover;
+    filter: grayscale(1);
+    clip-path: inset(0 100% 0 0);
+    animation: revealGray 2s ease-out forwards;
+}
+
+.slider-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 2px;
+    height: 100%;
+    background: white;
+    box-shadow: 0 0 10px rgba(255,255,255,0.8);
+    z-index: 1;
+    animation: slideLine 2s ease-out forwards;
 }
 
 .container {
     text-align: center;
     padding: 2rem;
     max-width: 800px;
-}
-
-header {
+    background-color: rgba(255, 255, 255, 0.9);
+    border-radius: 10px;
+    backdrop-filter: blur(5px);
+    position: relative;
     margin-bottom: 4rem;
 }
 
 h1 {
-    font-size: 2.5rem;
-    font-weight: 400;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 3rem;
     margin-bottom: 1rem;
-    letter-spacing: -0.5px;
+    letter-spacing: 1px;
 }
 
 .subtitle {
     font-size: 1.2rem;
-    color: #666;
     margin-bottom: 2rem;
 }
 
 nav ul {
     list-style: none;
     display: flex;
-    flex-direction: column;
-    gap: 1.5rem;
+    justify-content: center;
+    gap: 3rem;
 }
 
 nav a {
@@ -58,33 +96,65 @@ nav a {
     text-decoration: none;
     font-size: 1.1rem;
     transition: color 0.3s ease;
-    position: relative;
 }
 
 nav a:hover {
     color: #666;
 }
 
-nav a::after {
-    content: '';
+.motto {
     position: absolute;
-    width: 0;
-    height: 1px;
-    bottom: -2px;
+    bottom: 2rem;
     left: 0;
-    background-color: #333;
-    transition: width 0.3s ease;
-}
-
-nav a:hover::after {
     width: 100%;
+    text-align: center;
+    font-family: 'Bebas Neue', sans-serif;
+    font-size: 1.8rem;
+    color: #ec7a1c;
+    z-index: 2;
 }
 
-@media (min-width: 768px) {
+.motto-letter {
+    display: inline-block;
+    opacity: 0;
+    transform: translateY(20px);
+    animation: revealLetter 0.1s ease-out forwards;
+}
+
+@keyframes revealGray {
+    0% {
+        clip-path: inset(0 100% 0 0);
+    }
+    100% {
+        clip-path: inset(0 0 0 0);
+    }
+}
+
+@keyframes slideLine {
+    0% {
+        left: 0;
+    }
+    100% {
+        left: 100%;
+    }
+}
+
+@keyframes revealLetter {
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+@media (max-width: 768px) {
     nav ul {
-        flex-direction: row;
-        justify-content: center;
-        gap: 3rem;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+    
+    .motto {
+        font-size: 1.5rem;
+        bottom: 1rem;
     }
 }
 

@@ -4,9 +4,15 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Farzam Sepanta</title>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
+    <div class="background-container">
+        <div class="grayscale-reveal"></div>
+        <div class="slider-line"></div>
+    </div>
+
     <div class="container">
         <header>
             <h1>Farzam Sepanta</h1>
@@ -23,5 +29,20 @@
             </ul>
         </nav>
     </div>
+    
+    <div class="motto"></div>
+
+    <script>
+        const motto = "The race to net zero needs all of us";
+        const mottoDiv = document.querySelector('.motto');
+        
+        motto.split('').forEach((letter, index) => {
+            const span = document.createElement('span');
+            span.className = 'motto-letter';
+            span.textContent = letter === ' ' ? '\u00A0' : letter;
+            span.style.animationDelay = `${(index * 0.05) + 0.5}s`;
+            mottoDiv.appendChild(span);
+        });
+    </script>
 </body>
 </html> 
