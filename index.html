@@ -37,6 +37,15 @@
         </aside>
 
         <main class="main-content">
+            <nav class="top-nav">
+                <ul>
+                    <li><a href="#about">About</a></li>
+                    <li><a href="#research-areas">Research Areas</a></li>
+                    <li><a href="#research-papers">Research Papers</a></li>
+                    <li><a href="#teaching">Teaching</a></li>
+                </ul>
+            </nav>
+
             <section class="section" id="research-areas">
                 <h2>Research Areas</h2>
                 <div class="research-grid">
@@ -95,6 +104,39 @@
                             </div>
                         </div>
                     </div>
+                </div>
+            </section>
+
+            <section class="section" id="research-papers">
+                <h2>Research Papers</h2>
+                <div class="papers-filter">
+                    <button class="filter-btn active" data-filter="all">All</button>
+                    <button class="filter-btn" data-filter="journal">Journal Papers</button>
+                    <button class="filter-btn" data-filter="conference">Conference Papers</button>
+                    <button class="filter-btn" data-filter="magazine">Magazine Articles</button>
+                </div>
+                <div class="papers-grid">
+                    <!-- Journal Papers -->
+                    <div class="paper-card" data-type="journal">
+                        <a href="https://doi.org/10.1016/j.jobe.2024.01.004" target="_blank">
+                            <div class="paper-thumbnail">
+                                <img src="images/papers/telework-sustainability.jpg" alt="Paper thumbnail">
+                                <div class="paper-overlay">
+                                    <span class="journal-tag">Journal of Building Engineering</span>
+                                </div>
+                            </div>
+                            <div class="paper-info">
+                                <h4>Sustainability of telework: Systematic quantification of the impact of teleworking</h4>
+                                <p class="authors">F Sepanta, M Sirati, W O'Brien</p>
+                                <p class="journal">Journal of Building Engineering, 2024</p>
+                                <div class="paper-metrics">
+                                    <span><i class="fas fa-quote-right"></i> 5 citations</span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+
+                    <!-- Add more paper cards with similar structure -->
                 </div>
             </section>
 
@@ -159,6 +201,37 @@
                     modal.style.display = 'none';
                 }
             }
+
+            // Smooth scroll to research papers section
+            document.querySelector('a[href="#research-papers"]').addEventListener('click', function(e) {
+                e.preventDefault();
+                document.querySelector('#research-papers').scrollIntoView({
+                    behavior: 'smooth'
+                });
+            });
+
+            // Filter functionality
+            const filterButtons = document.querySelectorAll('.filter-btn');
+            const papers = document.querySelectorAll('.paper-card');
+
+            filterButtons.forEach(button => {
+                button.addEventListener('click', () => {
+                    // Remove active class from all buttons
+                    filterButtons.forEach(btn => btn.classList.remove('active'));
+                    // Add active class to clicked button
+                    button.classList.add('active');
+
+                    const filterValue = button.getAttribute('data-filter');
+                    
+                    papers.forEach(paper => {
+                        if (filterValue === 'all' || paper.getAttribute('data-type') === filterValue) {
+                            paper.style.display = 'block';
+                        } else {
+                            paper.style.display = 'none';
+                        }
+                    });
+                });
+            });
         });
     </script>
 </body>
