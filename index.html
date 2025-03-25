@@ -277,6 +277,22 @@
                 type: "journal"
             },
             // ... (rest of your papers)
+            {
+                title: "Sustainability of telework: Systematic quantification of the impact of teleworking",
+                authors: "F Sepanta, M Sirati, W O'Brien",
+                journal: "Journal of Building Engineering",
+                year: 2024,
+                doi: "10.1016/j.jobe.2024.109438",
+                type: "journal"
+            },
+            {
+                title: "Sustainability of telework: Systematic quantification of the impact of teleworking",
+                authors: "F Sepanta, M Sirati, W O'Brien",
+                journal: "Journal of Building Engineering",
+                year: 2024,
+                doi: "10.1016/j.jobe.2024.109438",
+                type: "journal"
+            },
         ];
 
         document.addEventListener('DOMContentLoaded', function() {
@@ -286,12 +302,17 @@
             
             // Simplified paper card creation
             function createPaperCard(paper) {
+                // Create a thumbnail URL based on DOI
+                const thumbnailUrl = paper.doi ? 
+                    `https://openalex.org/works/doi:${paper.doi}/thumbnail` : 
+                    'images/paper-placeholder.jpg';
+
                 return `
                     <div class="paper-card" data-type="${paper.type}">
                         <div class="paper-thumbnail">
-                            <img src="https://openalex.org/works/doi:${paper.doi}/thumbnail" 
-                                 onerror="this.src='images/paper-placeholder.jpg'"
-                                 alt="Paper thumbnail">
+                            <img src="${thumbnailUrl}" 
+                                 onerror="this.src='https://via.placeholder.com/400x300/f5f6fa/2c3e50?text=${encodeURIComponent(paper.journal)}'"
+                                 alt="${paper.title}">
                             <div class="paper-overlay">
                                 <span class="journal-tag">${paper.journal}</span>
                             </div>
