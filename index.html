@@ -270,31 +270,141 @@
         const papers = [
             {
                 title: "Sustainability of telework: Systematic quantification of the impact of teleworking",
-                authors: "F Sepanta, M Sirati, W O'Brien",
-                journal: "Journal of Building Engineering",
-                year: 2024,
-                doi: "10.1016/j.jobe.2024.109438",
-                type: "journal"
-            },
-            // ... (rest of your papers)
-            {
-                title: "Sustainability of telework: Systematic quantification of the impact of teleworking",
-                authors: "F Sepanta, M Sirati, W O'Brien",
+                authors: "F. Sepanta, M. Sirati, W. O'Brien",
                 journal: "Journal of Building Engineering",
                 year: 2024,
                 doi: "10.1016/j.jobe.2024.109438",
                 type: "journal"
             },
             {
-                title: "Sustainability of telework: Systematic quantification of the impact of teleworking",
-                authors: "F Sepanta, M Sirati, W O'Brien",
-                journal: "Journal of Building Engineering",
+                title: "Simulating the Impact and Policy Implications of Telework on Home Energy Use and Emissions in Canada",
+                authors: "M. Sirati, F. Sepanta, W. O'Brien, C. Cruickshank",
+                journal: "Science and Technology for the Built Environment",
                 year: 2024,
-                doi: "10.1016/j.jobe.2024.109438",
+                doi: "",
                 type: "journal"
             },
-            
-        ].sort((a, b) => b.year - a.year); // This will sort by year, newest first
+            {
+                title: "Interview study to uncover the energy use impacts and behaviours of teleworkers who relocated during COVID-19 in Canada",
+                authors: "F. Sepanta, W. O'Brien, L. Arpan",
+                journal: "Architectural Science Review",
+                year: 2023,
+                doi: "",
+                type: "journal"
+            },
+            {
+                title: "Review and exploration of relationships between domains impacted by telework: A glimpse into the energy and sustainability considerations, COVID-19 implications, and future research",
+                authors: "F. Sepanta, W. O'Brien",
+                journal: "Renewable and Sustainable Energy Reviews",
+                year: 2023,
+                doi: "10.1016/j.rser.2023.113464",
+                type: "journal"
+            },
+            {
+                title: "Impact of extended reality on architectural education and the design process",
+                authors: "F. Kharvari, L. Kaiser",
+                journal: "Automation in Construction",
+                year: 2022,
+                doi: "",
+                type: "journal"
+            },
+            {
+                title: "A comprehensive simulation-based assessment of office building performance adaptability to teleworking scenarios in different Canadian climate zones",
+                authors: "F. Kharvari, S. Azimi, W. O'Brien",
+                journal: "Building Simulation",
+                year: 2022,
+                doi: "",
+                type: "journal"
+            },
+            {
+                title: "The impact of the COVID-19 on households' hourly electricity consumption in Canada",
+                authors: "A. Abdeen, F. Kharvari, W. O'Brien, B. Gunay",
+                journal: "Energy and Buildings",
+                year: 2021,
+                doi: "",
+                type: "journal"
+            },
+            {
+                title: "Assessment of occupant adaptive behavior and visual comfort in educational facilities: A cross-sectional field survey",
+                authors: "F. Kharvari, M. Rostami-Moez",
+                journal: "Energy for Sustainable Development",
+                year: 2021,
+                doi: "",
+                type: "journal"
+            },
+            {
+                title: "A Field-validated Multi-objective Optimization of the Shape and Size of Windows Based on Daylighting Metrics in Hot-summer Mediterranean and Dry Summer Continental Climates",
+                authors: "F. Kharvari",
+                journal: "Journal of Daylighting",
+                year: 2020,
+                doi: "",
+                type: "journal"
+            },
+            {
+                title: "An empirical validation of daylighting tools: Assessing radiance parameters and simulation settings in Ladybug and Honeybee against field measurements",
+                authors: "F. Kharvari",
+                journal: "Solar Energy",
+                year: 2020,
+                doi: "",
+                type: "journal"
+            },
+            {
+                title: "Evaluation of Daylight regulations in buildings using daylight factor analysis method by radiance",
+                authors: "S. Vaisi, F. Kharvari",
+                journal: "Energy for Sustainable Development",
+                year: 2019,
+                doi: "",
+                type: "journal"
+            },
+            {
+                title: "Quantifying the Impact of Teleworking on Home and Office Energy Use: A Case Study in Ontario, Canada",
+                authors: "F. Sepanta, M. Sirati, W. O'Brien",
+                journal: "ASHRAE Winter Conference – Chicago",
+                year: 2024,
+                doi: "",
+                type: "conference"
+            },
+            {
+                title: "New Insights on Teleworkers' Work-Related Preferences and Energy-Related Behaviors for Working Remotely During the COVID-19 Pandemic: An Interview-Based Qualitative Analysis",
+                authors: "F. Kharvari, W. O'Brien, L. Arpan",
+                journal: "International Conference on Building Energy and Environment",
+                year: 2022,
+                doi: "",
+                type: "conference"
+            },
+            {
+                title: "A preliminary scenario analysis of the impacts of teleworking on energy consumption and greenhouse gas (GHG) emissions",
+                authors: "F. Kharvari, S. Azimi, W. O'Brien",
+                journal: "Journal of Physics: Conference Series",
+                year: 2021,
+                doi: "",
+                type: "conference"
+            },
+            {
+                title: "C-HVAC: A practical tool for assessing ventilation capacity for HVAC systems during the COVID-19 Pandemic",
+                authors: "F. Kharvari, W. O'Brien",
+                journal: "Proceedings of the 7th ACM International Conference on Systems for Energy-Efficient Buildings, Cities, and Transportation",
+                year: 2020,
+                doi: "",
+                type: "conference"
+            },
+            {
+                title: "Wayfinding in Museums: A Cross-sectional Comparison Between 3D Serious Games and 2D Drawings as Tools for Participatory Design",
+                authors: "W. Höhl, F. Kharvari, G. Klinker",
+                journal: "IEEE Conference on Games (CoG)",
+                year: 2020,
+                doi: "",
+                type: "conference"
+            },
+            {
+                title: "The Role of Serious Gaming using Virtual Reality Applications for 3D Architectural Visualization",
+                authors: "F. Kharvari, W. Höhl",
+                journal: "11th International Conference on Virtual Worlds and Games for Serious Applications (VS-Games)",
+                year: 2019,
+                doi: "",
+                type: "conference"
+            }
+        ].sort((a, b) => b.year - a.year); // Sort by year, newest first
 
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.getElementById('papers-container');
