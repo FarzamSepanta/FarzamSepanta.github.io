@@ -123,23 +123,7 @@
             <!-- Magazine Articles Section -->
             <section class="section" id="magazine-articles">
                 <h2>Magazine Articles</h2>
-                <div class="papers-grid">
-                    <div class="paper-card">
-                        <div class="paper-thumbnail">
-                            <img src="images/papers/scientific-american.jpg" alt="Scientific American Article">
-                            <div class="paper-overlay">
-                                <span class="journal-tag">Scientific American</span>
-                            </div>
-                        </div>
-                        <div class="paper-info">
-                            <h4>Smart Tech Would Make Your Office Greener</h4>
-                            <p class="authors">F Sepanta, L O'Brien</p>
-                            <p class="journal">Scientific American, 2024</p>
-                            <a href="#" class="paper-link">Read Article</a>
-                        </div>
-                    </div>
-                    <!-- Add other magazine articles similarly -->
-                </div>
+                <div class="papers-grid" id="magazine-container"></div>
             </section>
 
             <!-- Media Appearances Section -->
@@ -472,6 +456,91 @@
             // Initial render
             filterPapers();
         });
+
+        const magazineArticles = [
+            {
+                title: "Smart Tech Would Make Your Office Greener",
+                authors: "F. Sepanta, L. O'Brien",
+                journal: "Scientific American",
+                year: 2024,
+                url: "https://www.scientificamerican.com/article/smart-tech-would-make-your-office-greener/",
+                type: "magazine"
+            },
+            {
+                title: "How virtual reality technologies are shaping an inclusive future for architecture",
+                authors: "F. Sepanta",
+                journal: "The Conversation",
+                year: 2025,
+                url: "https://theconversation.com/profiles/farzam-sepanta-1386475/articles",
+                type: "magazine"
+            },
+            {
+                title: "Artificial intelligence can support architects but lacks empathy and ethics",
+                authors: "F. Sepanta",
+                journal: "The Conversation",
+                year: 2023,
+                url: "https://theconversation.com/artificial-intelligence-can-support-architects-but-lacks-empathy-and-ethics-207999",
+                type: "magazine"
+            },
+            {
+                title: "Empty buildings consume more energy than you think",
+                authors: "F. Sepanta",
+                journal: "The Conversation",
+                year: 2022,
+                url: "https://theconversation.com/empty-buildings-consume-more-energy-than-you-think",
+                type: "magazine"
+            },
+            {
+                title: "No longer freezing: Working from home can make workplaces more comfortable",
+                authors: "F. Sepanta, L. Arpan, L. O'Brien, M. Touchie",
+                journal: "The Conversation",
+                year: 2022,
+                url: "https://theconversation.com/no-longer-freezing-working-from-home-can-make-workplaces-more-comfortable-190131",
+                type: "magazine"
+            },
+            {
+                title: "Drawn to bustling markets, shops or malls this holiday season? Good vibe could explain it",
+                authors: "F. Sepanta",
+                journal: "The Conversation",
+                year: 2022,
+                url: "https://theconversation.com/drawn-to-bustling-markets-shops-or-malls-this-holiday-season-good-vibe-could-explain-it-196089",
+                type: "magazine"
+            },
+            {
+                title: "5 senses? In fact, architects say there are 7 ways we perceive our environments",
+                authors: "F. Sepanta",
+                journal: "The Conversation",
+                year: 2022,
+                url: "https://theconversation.com/5-senses-in-fact-architects-say-there-are-7-ways-we-perceive-our-environments-192561",
+                type: "magazine"
+            }
+        ].sort((a, b) => b.year - a.year);
+
+        function createMagazineCard(article) {
+            return `
+                <div class="paper-card">
+                    <div class="paper-thumbnail">
+                        <img src="images/magazines/${article.journal.toLowerCase().replace(' ', '-')}.jpg" 
+                             onerror="this.src='https://via.placeholder.com/400x300/f5f6fa/2c3e50?text=${encodeURIComponent(article.journal)}'"
+                             alt="${article.title}">
+                        <div class="paper-overlay">
+                            <span class="journal-tag">${article.journal}</span>
+                        </div>
+                    </div>
+                    <div class="paper-info">
+                        <h4>${article.title}</h4>
+                        <p class="authors">${article.authors}</p>
+                        <p class="journal">${article.journal}, ${article.year}</p>
+                        <a href="${article.url}" target="_blank" class="paper-link">
+                            Read Article
+                        </a>
+                    </div>
+                </div>
+            `;
+        }
+
+        const magazineContainer = document.getElementById('magazine-container');
+        magazineContainer.innerHTML = magazineArticles.map(createMagazineCard).join('');
     </script>
 </body>
 </html> 
