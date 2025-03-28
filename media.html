@@ -26,47 +26,99 @@
     </div>
 
     <script>
-        const mediaAppearances = [
-            {
-                title: "CBC News Interview",
-                type: "TV",
-                host: "Omar Dabaghi-Pacheco",
-                outlet: "CBC News",
-                description: "One-on-one TV interview on telework and energy impacts",
-                url: "https://www.cbc.ca/news/canada/ottawa/",
-                featured: true
-            },
-            {
-                title: "The National",
-                type: "TV",
-                outlet: "CBC",
-                description: "Extended coverage on telework research",
-                url: "https://www.cbc.ca/news/thenational",
-                featured: true
-            },
-            // ... rest of your media appearances
-        ];
-
         function createMediaCard(media) {
             return `
-                <div class="media-card ${media.featured ? 'featured' : ''}">
-                    <div class="media-content">
-                        <span class="media-type">${media.type}</span>
-                        <h3>${media.title}</h3>
-                        ${media.outlet ? `<p class="media-outlet">${media.outlet}</p>` : ''}
-                        <p class="media-details">
-                            ${media.host ? `With ${media.host}` : ''}
-                            ${media.description ? `<br>${media.description}` : ''}
-                        </p>
-                        ${media.url ? `
-                            <a href="${media.url}" target="_blank" class="watch-link">
-                                Watch/Listen →
-                            </a>
-                        ` : ''}
-                    </div>
+                <div class="media-card">
+                    <h3>${media.title}</h3>
+                    <p>${media.outlet}</p>
+                    ${media.url ? `
+                        <a href="${media.url}" target="_blank" class="watch-link">Watch/Listen →</a>
+                    ` : ''}
                 </div>
             `;
         }
+
+        const mediaAppearances = [
+            {
+                title: "One-on-one TV interview with Omar Dabaghi-Pacheco",
+                outlet: "CBC News",
+                url: "https://www.cbc.ca/player/play/2305733699613"
+            },
+            {
+                title: "Extended coverage on telework research",
+                outlet: "The National (CBC)",
+                url: "https://www.cbc.ca/player/play/video/1.7119763"
+            },
+            {
+                title: "One-on-one TV interview with Sonia Sunger",
+                outlet: "Global News BC"
+            },
+            {
+                title: "45-minute interview with Rebecca Zandbergen",
+                outlet: "Ontario Today",
+                url: "https://www.cbc.ca/listen/live-radio/1-45-ontario-today/clip/16044005-is-working-home-still-working-you?share=true"
+            },
+            {
+                title: "Interview with Yonah Budd on the future of telework",
+                outlet: "Yonah Budd's Podcast"
+            },
+            {
+                title: "Interview with Kristy Cameron",
+                outlet: "Ottawa Now at 580 CFRA with CTV Ottawa"
+            },
+            {
+                title: "Interview with Angela Kokott",
+                outlet: "\"Afternoons\" - QR Calgary"
+            },
+            {
+                title: "Interview with Patricia Boal",
+                outlet: "Ottawa at Work"
+            },
+            {
+                title: "Five one-on-one radio interviews on telework and workplace comfort",
+                outlet: "630 CHED radio (Edmonton), QR Calgary, 770 CHQR radio (Calgary)"
+            },
+            {
+                title: "One-on-one radio interview with Kevin Usselman",
+                outlet: "770 CHQR radio",
+                description: "On how buildings impact our perception"
+            },
+            {
+                title: "Benefits of hybrid work models",
+                outlet: "CTV News",
+                url: "https://www.ctvnews.ca/mobile/canada/as-federal-workers-fight-office-mandate-study-finds-remote-work-has-climate-benefits-1.7084285"
+            },
+            {
+                title: "Green transitioning of offices",
+                outlet: "Ottawa Business Journal",
+                url: "https://obj.ca/half-empty-office-buildings-green-energy-savings-report-finds/?no_cache=1730318279"
+            },
+            {
+                title: "Featured coverage on telework research",
+                outlet: "Financial Post",
+                url: "https://financialpost.com/fp-work/working-from-home-dark-side-research"
+            },
+            {
+                title: "Featured coverage on telework research",
+                outlet: "Ottawa Business Journal",
+                url: "https://obj.ca/remote-workers-home-fever-good-lifestyle-research-shows/"
+            },
+            {
+                title: "Impact of TAs in academia",
+                outlet: "Carleton University's TA Blog",
+                url: "https://carleton.ca/tls/2024/ta-blog-how-being-a-teaching-assistant-transforms-student-success/"
+            },
+            {
+                title: "Is working at home still working for you?",
+                outlet: "Interview with Amanda Pfeffer",
+                url: "https://www.cbc.ca/listen/live-radio/1-45-ontario-today/clip/16044005-is-working-home-still-working-you"
+            },
+            {
+                title: "Working from home really does cut greenhouse gas emissions",
+                outlet: "Energy Talks with Markham Hislop",
+                url: "https://podcasts.apple.com/sg/podcast/working-from-home-really-does-cut-greenhouse-gas-emissions/id1534771882?i=1000675449577"
+            }
+        ];
 
         document.addEventListener('DOMContentLoaded', function() {
             const container = document.querySelector('.media-grid');
