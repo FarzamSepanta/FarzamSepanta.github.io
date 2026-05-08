@@ -5,9 +5,10 @@
 // media). All modules are vanilla ES, GSAP/Lenis come from CDN globals.
 // =========================================================================
 
-import { initScene } from './scene.js';
 import { initCursor, initMagnetic } from './cursor.js';
 import { initTransitions } from './transitions.js';
+// scene.js is dynamically imported only on pages that have [data-hero],
+// because it depends on three.js (resolved via the importmap on index.html).
 
 const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 
@@ -34,15 +35,12 @@ ready(() => {
 // =========================================================================
 // Smooth scroll via Lenis (hooked to GSAP ticker so ScrollTrigger stays in sync)
 // =========================================================================
-let lenis = null;
-
 function initSmoothScroll() {
     if (reduce || !window.Lenis) return;
-    lenis = new window.Lenis({
+    const lenis = new window.Lenis({
         duration: 1.1,
         easing: (t) => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
         smoothWheel: true,
-        smoothTouch: false,
         wheelMultiplier: 1,
         touchMultiplier: 1.4
     });
@@ -156,9 +154,17 @@ function initHero() {
     // Hero name parallax tilt on mouse
     initHeroNameTilt();
 
-    // Three.js horizon scene
+    // Three.js horizon scene — dynamic import keeps three.js out of inner pages
     const canvas = hero.querySelector('[data-scene]');
-    if (canvas) initScene(canvas);
+    if (canvas) {
+        import('./scene.js')
+            .then(({ initScene }) => initScene(canvas))
+            .catch((err) => {
+                // If three.js fails to load, leave the canvas hidden — the
+                // photo, type, and gradient bg still carry the hero.
+                console.warn('hero scene unavailable:', err);
+            });
+    }
 }
 
 function initMottoReveal() {

@@ -13,11 +13,27 @@ export function initCursor() {
     const dot  = document.querySelector('[data-cursor-dot]');
     if (!ring || !dot) return;
 
+    // Start hidden — show only after the user actually moves the pointer.
+    // Otherwise the cursor sits parked at viewport center on load, which
+    // looks broken.
+    ring.classList.add('is-hidden');
+    dot.classList.add('is-hidden');
+    let firstMove = true;
+
     let tx = window.innerWidth / 2, ty = window.innerHeight / 2;
     let rx = tx, ry = ty;
     let dx = tx, dy = ty;
 
     document.addEventListener('mousemove', (e) => {
+        if (firstMove) {
+            // Snap on first movement so we don't see a long lerp from
+            // viewport center to wherever the pointer actually is.
+            rx = tx = e.clientX;
+            ry = ty = e.clientY;
+            ring.classList.remove('is-hidden');
+            dot.classList.remove('is-hidden');
+            firstMove = false;
+        }
         tx = e.clientX;
         ty = e.clientY;
         dx = e.clientX;
