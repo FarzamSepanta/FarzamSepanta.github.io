@@ -10,7 +10,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="styles.css?v=3">
 
     <link rel="preload" as="image" href="images/LandingImage.jpg" fetchpriority="high">
 </head>
@@ -78,14 +78,35 @@
         </span>
     </header>
 
+    <canvas class="bg-scene" data-scene aria-hidden="true"></canvas>
+
     <main id="main">
         <section class="hero" data-hero>
-            <canvas class="hero-scene" data-scene aria-hidden="true"></canvas>
-
             <div class="hero-stage">
-                <div class="hero-photo" data-parallax data-depth="0.04">
+                <div class="hero-motion" aria-hidden="true">
+                    <span class="hero-streak hero-streak--1"></span>
+                    <span class="hero-streak hero-streak--2"></span>
+                    <span class="hero-streak hero-streak--3"></span>
+                    <span class="hero-streak hero-streak--4"></span>
+                    <span class="hero-streak hero-streak--5"></span>
+                </div>
+
+                <div class="hero-photo" data-hero-photo>
+                    <div class="hero-photo-ghost" aria-hidden="true">
+                        <img src="images/LandingImage.jpg" alt="" loading="eager" decoding="async">
+                    </div>
                     <img src="images/LandingImage.jpg" alt="Farzam Sepanta running on an open road" loading="eager" decoding="async">
                     <div class="hero-photo-veil" aria-hidden="true"></div>
+                </div>
+
+                <div class="hero-track" aria-hidden="true">
+                    <span class="hero-track-line"></span>
+                    <span class="hero-track-tick"></span>
+                    <span class="hero-track-tick"></span>
+                    <span class="hero-track-tick"></span>
+                    <span class="hero-track-tick"></span>
+                    <span class="hero-track-tick"></span>
+                    <span class="hero-track-tick"></span>
                 </div>
 
                 <div class="hero-meta meta-tl">
@@ -96,9 +117,13 @@
                     <span class="meta-stamp">45.4215° N · 75.6972° W</span>
                 </div>
 
-                <h1 class="hero-name" data-split>
-                    <span class="hero-name-row" aria-hidden="true">Farzam</span>
-                    <span class="hero-name-row hero-name-row--alt" aria-hidden="true">Sepanta</span>
+                <h1 class="hero-name" data-hero-name>
+                    <span class="hero-name-row hero-name-row--first" data-hero-first aria-hidden="true">
+                        <span class="hero-name__fill">FARZAM</span>
+                    </span>
+                    <span class="hero-name-row hero-name-row--last" data-hero-last aria-hidden="true">
+                        <span class="hero-name__stroke">SEPANTA</span>
+                    </span>
                     <span class="visually-hidden">Farzam Sepanta</span>
                 </h1>
 
@@ -111,6 +136,21 @@
                 </p>
 
                 <p class="hero-motto" data-motto>The race to net zero needs all of us.</p>
+
+                <div class="hero-stats" aria-hidden="true">
+                    <span class="hero-stat">
+                        <span class="hero-stat-num" data-tick-distance>0.00</span>
+                        <span class="hero-stat-label">km · forward</span>
+                    </span>
+                    <span class="hero-stat">
+                        <span class="hero-stat-num" data-tick-pace>5'12"</span>
+                        <span class="hero-stat-label">pace · /km</span>
+                    </span>
+                    <span class="hero-stat">
+                        <span class="hero-stat-num">net zero</span>
+                        <span class="hero-stat-label">heading</span>
+                    </span>
+                </div>
 
                 <div class="hero-cue" aria-hidden="true">
                     <span>Scroll</span>
@@ -206,6 +246,6 @@
         }
     }
     </script>
-    <script type="module" src="app.js"></script>
+    <script type="module" src="app.js?v=3"></script>
 </body>
 </html>

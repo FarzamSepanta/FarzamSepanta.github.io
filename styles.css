@@ -299,7 +299,7 @@ html.lenis, html.lenis body { height: auto; }
     .intro-tagline { letter-spacing: 0.18em; }
 }
 
-/* ------ Hero photo: hidden until intro releases it (only on home page) ------ */
+/* ------ Hero photo + name: hidden until intro releases them ------ */
 body[data-page="home"] .hero-photo {
     opacity: 0;
     transform: translate3d(110%, 0, 0);
@@ -310,10 +310,46 @@ body[data-page="home"].is-photo-in .hero-photo {
     opacity: 1;
     transform: translate3d(0, 0, 0);
 }
-/* Skip the slide-in entirely if user prefers reduced motion */
+/* Hero H1 stays invisible while the intro plays; intro.js flips it on
+   the moment the FLIP morph lands. */
+body[data-page="home"]:not(.is-name-in) .hero-name { visibility: hidden; }
+
+/* Other hero text waits for intro to release it too, so they fade in
+   alongside the photo rather than peeking through behind the overlay. */
+body[data-page="home"]:not(.is-hero-in) .hero-meta,
+body[data-page="home"]:not(.is-hero-in) .hero-role,
+body[data-page="home"]:not(.is-hero-in) .hero-motto,
+body[data-page="home"]:not(.is-hero-in) .hero-stats,
+body[data-page="home"]:not(.is-hero-in) .hero-cue,
+body[data-page="home"]:not(.is-hero-in) .hero-track,
+body[data-page="home"]:not(.is-hero-in) .hero-motion {
+    opacity: 0;
+}
+body[data-page="home"].is-hero-in .hero-meta,
+body[data-page="home"].is-hero-in .hero-role,
+body[data-page="home"].is-hero-in .hero-motto,
+body[data-page="home"].is-hero-in .hero-stats,
+body[data-page="home"].is-hero-in .hero-cue,
+body[data-page="home"].is-hero-in .hero-track,
+body[data-page="home"].is-hero-in .hero-motion {
+    transition: opacity 0.9s var(--ease);
+    opacity: 1;
+}
+
+/* Skip the gating entirely if user prefers reduced motion */
 @media (prefers-reduced-motion: reduce) {
     body[data-page="home"] .hero-photo {
         opacity: 1; transform: none;
+    }
+    body[data-page="home"] .hero-name { visibility: visible !important; }
+    body[data-page="home"] .hero-meta,
+    body[data-page="home"] .hero-role,
+    body[data-page="home"] .hero-motto,
+    body[data-page="home"] .hero-stats,
+    body[data-page="home"] .hero-cue,
+    body[data-page="home"] .hero-track,
+    body[data-page="home"] .hero-motion {
+        opacity: 1 !important;
     }
 }
 
@@ -543,6 +579,24 @@ body[data-page="home"].is-photo-in .hero-photo {
     .topnav a { font-size: 0.65rem; letter-spacing: 0.14em; }
 }
 
+/* ------ Page-level scene canvas (sustainability grid background) ------
+   Lives behind the entire page. Hero covers it; below-fold sections are
+   transparent so the scene is visible during scroll. */
+.bg-scene {
+    position: fixed;
+    inset: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    pointer-events: none;
+    opacity: 0;
+    transition: opacity 1.4s var(--ease);
+}
+.bg-scene.is-ready { opacity: 0.9; }
+@media (prefers-reduced-motion: reduce) {
+    .bg-scene { display: none; }
+}
+
 /* ------ Hero ------ */
 .hero {
     position: relative;
@@ -551,18 +605,13 @@ body[data-page="home"].is-photo-in .hero-photo {
     width: 100%;
     overflow: hidden;
     isolation: isolate;
-    background: radial-gradient(ellipse at 70% 100%, #2a1a10 0%, var(--bg) 55%, var(--bg) 100%);
+    z-index: 1;
+    /* Solid bg so the page-level grid is hidden behind the hero */
+    background:
+        radial-gradient(ellipse at 60% 110%, rgba(255, 91, 31, 0.12) 0%, transparent 50%),
+        radial-gradient(ellipse at 8% 20%, rgba(122, 214, 114, 0.05) 0%, transparent 50%),
+        var(--bg);
 }
-.hero-scene {
-    position: absolute;
-    inset: 0;
-    width: 100%;
-    height: 100%;
-    z-index: 0;
-    opacity: 0;
-    transition: opacity 1.2s var(--ease);
-}
-.hero-scene.is-ready { opacity: 1; }
 
 .hero-stage {
     position: relative;
@@ -574,6 +623,37 @@ body[data-page="home"].is-photo-in .hero-photo {
     grid-template-columns: 1fr;
     grid-template-rows: auto 1fr auto;
     padding: clamp(5rem, 6vh + 4rem, 8rem) var(--pad) var(--pad);
+}
+
+/* Motion streaks — horizontal speed lines streaking right→left behind
+   the photo. Suggests the world flying past the runner. */
+.hero-motion {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+}
+.hero-streak {
+    position: absolute;
+    height: 1px;
+    width: 14vw;
+    background: linear-gradient(90deg, transparent 0%, var(--ember) 30%, var(--fg) 80%, transparent 100%);
+    opacity: 0;
+    will-change: transform;
+    animation: heroStreak 4.5s linear infinite;
+    box-shadow: 0 0 8px var(--ember-glow);
+}
+.hero-streak--1 { top: 28%; animation-delay: 0s;     animation-duration: 4.2s; }
+.hero-streak--2 { top: 41%; animation-delay: 1.1s;   animation-duration: 5.0s; }
+.hero-streak--3 { top: 56%; animation-delay: 0.4s;   animation-duration: 3.6s; }
+.hero-streak--4 { top: 68%; animation-delay: 2.2s;   animation-duration: 4.8s; }
+.hero-streak--5 { top: 78%; animation-delay: 0.8s;   animation-duration: 3.2s; }
+@keyframes heroStreak {
+    0%   { transform: translateX(0);    opacity: 0; }
+    10%  { opacity: 0.7; }
+    50%  { opacity: 0.55; }
+    100% { transform: translateX(-115vw); opacity: 0; }
 }
 
 /* Photo — the anchor. Bottom-right, large, with a subtle veil */
@@ -589,7 +669,7 @@ body[data-page="home"].is-photo-in .hero-photo {
     -webkit-mask-image: linear-gradient(180deg, black 0%, black 88%, transparent 100%);
             mask-image: linear-gradient(180deg, black 0%, black 88%, transparent 100%);
 }
-.hero-photo img {
+.hero-photo > img {
     width: 100%; height: 100%;
     object-fit: cover;
     object-position: 18% center;
@@ -597,18 +677,132 @@ body[data-page="home"].is-photo-in .hero-photo {
     transform: scale(1.08);
     transition: transform 6s var(--ease);
 }
-.hero-photo.is-loaded img { transform: scale(1); }
+.hero-photo.is-loaded > img {
+    transform: scale(1);
+    animation: heroGait 1.4s ease-in-out 6s infinite alternate;
+}
+/* Running-gait drift: subtle vertical bounce + lateral micro-shift,
+   timed to a runner's cadence. Starts AFTER the scale-in completes. */
+@keyframes heroGait {
+    from { transform: translate3d(0, 0, 0) scale(1); }
+    to   { transform: translate3d(-3px, -4px, 0) scale(1); }
+}
 @media (max-width: 980px) {
-    .hero-photo img { object-position: 22% center; }
+    .hero-photo > img { object-position: 22% center; }
 }
 @media (max-width: 600px) {
-    .hero-photo img { object-position: 25% center; }
+    .hero-photo > img { object-position: 25% center; }
 }
+
+/* Ghost trail — translucent blurred duplicate offset slightly left,
+   suggesting motion blur of the runner's previous step */
+.hero-photo-ghost {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+    opacity: 0.25;
+    filter: blur(10px) saturate(0.8);
+    transform: translate3d(-26px, 0, 0);
+    mix-blend-mode: screen;
+    z-index: 0;
+}
+.hero-photo-ghost img {
+    width: 100%; height: 100%;
+    object-fit: cover;
+    object-position: 18% center;
+    animation: heroGhost 1.4s ease-in-out infinite alternate;
+}
+@keyframes heroGhost {
+    from { transform: translate3d(0, 0, 0); }
+    to   { transform: translate3d(-8px, -3px, 0); }
+}
+@media (max-width: 600px) {
+    .hero-photo-ghost { display: none; }
+}
+
 .hero-photo-veil {
     position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(11,10,8,0.05) 0%, rgba(11,10,8,0.45) 100%),
                 linear-gradient(90deg, rgba(11,10,8,0.55) 0%, rgba(11,10,8,0) 35%);
     pointer-events: none;
+    z-index: 1;
+}
+
+/* Track indicator — horizontal line with tick marks running right→left
+   along the bottom of the hero. Like distance markers passing by. */
+.hero-track {
+    position: absolute;
+    left: 0; right: 0;
+    bottom: clamp(5.5rem, 14vh, 9rem);
+    height: 12px;
+    z-index: 1;
+    pointer-events: none;
+    overflow: hidden;
+}
+.hero-track-line {
+    position: absolute;
+    top: 50%;
+    left: 0; right: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent 0%, var(--line-hi) 30%, var(--line-hi) 70%, transparent 100%);
+    transform: translateY(-50%);
+}
+.hero-track-tick {
+    position: absolute;
+    top: 0;
+    width: 1px;
+    height: 12px;
+    background: var(--ember);
+    box-shadow: 0 0 6px var(--ember-glow);
+    animation: heroTrackTick 3.6s linear infinite;
+    will-change: transform;
+}
+.hero-track-tick:nth-child(1) { animation-delay: 0s;    }
+.hero-track-tick:nth-child(2) { animation-delay: 0.6s;  }
+.hero-track-tick:nth-child(3) { animation-delay: 1.2s;  }
+.hero-track-tick:nth-child(4) { animation-delay: 1.8s;  }
+.hero-track-tick:nth-child(5) { animation-delay: 2.4s;  }
+.hero-track-tick:nth-child(6) { animation-delay: 3.0s;  }
+@keyframes heroTrackTick {
+    from { transform: translateX(105vw); opacity: 1; }
+    to   { transform: translateX(-5vw);  opacity: 0; }
+}
+
+/* Stats strip — distance / pace / heading. Numbers tick continuously. */
+.hero-stats {
+    position: absolute;
+    left: var(--pad);
+    bottom: var(--pad);
+    z-index: 4;
+    display: flex;
+    gap: clamp(1rem, 0.5rem + 1.5vw, 2.5rem);
+    pointer-events: none;
+}
+.hero-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    padding-left: 0.8rem;
+    border-left: 1px solid var(--ember);
+}
+.hero-stat-num {
+    font-family: var(--font-mono);
+    font-size: clamp(0.85rem, 0.7rem + 0.5vw, 1rem);
+    font-weight: 500;
+    letter-spacing: 0.06em;
+    color: var(--fg);
+    font-feature-settings: "tnum";
+    font-variant-numeric: tabular-nums;
+}
+.hero-stat-label {
+    font-family: var(--font-mono);
+    font-size: 0.62rem;
+    text-transform: uppercase;
+    letter-spacing: 0.18em;
+    color: var(--fg-mute);
+}
+@media (max-width: 720px) {
+    .hero-stats { display: none; }
 }
 
 /* Meta stamps — top-left and top-right */
@@ -644,7 +838,9 @@ body[data-page="home"].is-photo-in .hero-photo {
     box-shadow: 0 0 6px var(--ember-glow);
 }
 
-/* Big name. Two stacked rows that fight for the same eyeline as the photo. */
+/* Big name. Two stacked rows. FARZAM rendered as a solid fill, SEPANTA
+   as an outline-only stroke. Inner span structure mirrors the intro
+   word so a FLIP morph from intro-state lands cleanly here. */
 .hero-name {
     grid-row: 2 / 3;
     align-self: end;
@@ -653,23 +849,30 @@ body[data-page="home"].is-photo-in .hero-photo {
     font-family: var(--font-display);
     font-size: var(--tx-h1);
     line-height: 0.82;
-    letter-spacing: -0.01em;
-    color: var(--fg);
+    letter-spacing: 0.005em;
     pointer-events: none;
     text-transform: uppercase;
     margin-bottom: clamp(0.5rem, 1vw, 1.5rem);
+    visibility: var(--hero-name-vis, visible);
 }
 .hero-name-row {
     display: block;
+    width: max-content;
+    max-width: 100%;
     will-change: transform;
 }
-.hero-name-row--alt {
-    color: transparent;
-    -webkit-text-stroke: 1px var(--fg);
+.hero-name-row--last {
     margin-left: clamp(2rem, 6vw, 6rem);
 }
-@supports (-webkit-text-stroke: 1px var(--fg)) {
-    .hero-name-row--alt { color: transparent; }
+.hero-name__fill {
+    color: var(--fg);
+    display: inline-block;
+}
+.hero-name__stroke {
+    color: transparent;
+    -webkit-text-stroke: 1.2px var(--fg);
+            text-stroke: 1.2px var(--fg);
+    display: inline-block;
 }
 .visually-hidden {
     position: absolute !important;
@@ -711,6 +914,10 @@ body[data-page="home"].is-photo-in .hero-photo {
     max-width: 18ch;
     margin-top: clamp(0.5rem, 1.5vw, 1.5rem);
 }
+.hero-motto .motto-word {
+    display: inline-block;
+    white-space: nowrap;
+}
 .hero-motto .motto-letter {
     display: inline-block;
     opacity: 0;
@@ -727,7 +934,7 @@ body[data-page="home"].is-photo-in .hero-photo {
 .hero-cue {
     position: absolute;
     bottom: var(--pad);
-    left: var(--pad);
+    right: var(--pad);
     z-index: 4;
     display: inline-flex;
     align-items: center;
@@ -785,6 +992,7 @@ body[data-page="home"].is-photo-in .hero-photo {
     border-top: 1px solid var(--line);
     border-bottom: 1px solid var(--line);
     background: var(--bg-soft);
+    z-index: 1;
 }
 .strip-eyebrow {
     display: block;
@@ -811,11 +1019,24 @@ body[data-page="home"].is-photo-in .hero-photo {
 }
 .strip-lede .hl { color: var(--leaf); }
 
-/* ------ Destinations ------ */
+/* ------ Destinations ------
+   Transparent bg here so the page-level grid scene shows through
+   between the strip's solid block and the footer. */
 .dest {
+    position: relative;
     padding: var(--pad-xl) var(--pad);
     max-width: var(--maxw);
     margin: 0 auto;
+    z-index: 1;
+}
+.dest::before {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(180deg, var(--bg) 0%, rgba(11, 10, 8, 0.2) 30%, rgba(11, 10, 8, 0.2) 70%, var(--bg) 100%);
+    z-index: -1;
+    pointer-events: none;
+    margin: 0 calc(-1 * var(--pad));
 }
 .dest-head {
     display: flex;
@@ -945,11 +1166,13 @@ body[data-page="home"].is-photo-in .hero-photo {
 
 /* ------ Footer ------ */
 .ftr {
+    position: relative;
     padding: var(--pad-xl) var(--pad) var(--pad-md);
     border-top: 1px solid var(--line);
     margin-top: var(--pad-xl);
     text-align: center;
     background: linear-gradient(180deg, var(--bg) 0%, var(--bg-soft) 100%);
+    z-index: 1;
 }
 .ftr-motto {
     font-family: var(--font-serif);

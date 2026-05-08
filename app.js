@@ -5,9 +5,9 @@
 // media). All modules are vanilla ES, GSAP/Lenis come from CDN globals.
 // =========================================================================
 
-import { initCursor, initMagnetic } from './cursor.js';
-import { initTransitions } from './transitions.js';
-import { initIntro } from './intro.js';
+import { initCursor, initMagnetic } from './cursor.js?v=3';
+import { initTransitions } from './transitions.js?v=3';
+import { initIntro } from './intro.js?v=3';
 // scene.js is dynamically imported only on pages that have [data-hero],
 // because it depends on three.js (resolved via the importmap on index.html).
 
@@ -160,24 +160,81 @@ function initHero() {
     // Hero name parallax tilt on mouse
     initHeroNameTilt();
 
-    // Three.js horizon scene — dynamic import keeps three.js out of inner pages
-    const canvas = hero.querySelector('[data-scene]');
+    // Stats ticker (distance + pace ticking up to suggest forward motion)
+    initStatsTicker();
+
+    // Three.js horizon scene — page-level canvas now lives outside the hero
+    const canvas = document.querySelector('[data-scene]');
     if (canvas) {
         import('./scene.js')
             .then(({ initScene }) => initScene(canvas))
             .catch((err) => {
-                // If three.js fails to load, leave the canvas hidden — the
-                // photo, type, and gradient bg still carry the hero.
                 console.warn('hero scene unavailable:', err);
             });
     }
+}
+
+function initStatsTicker() {
+    if (reduce) return;
+    const distEl = document.querySelector('[data-tick-distance]');
+    const paceEl = document.querySelector('[data-tick-pace]');
+    if (!distEl && !paceEl) return;
+
+    let distKm = 0;
+    let lastTime = performance.now();
+    let paceMin = 5;
+    let paceSec = 12;
+    let paceTick = 0;
+
+    const tick = (now) => {
+        const dt = (now - lastTime) / 1000;
+        lastTime = now;
+
+        // Distance ticks at ~0.014 km/s = ~50 km/h scaled cinema-time
+        if (distEl) {
+            distKm += dt * 0.014;
+            if (distKm > 99.99) distKm = 0;
+            distEl.textContent = distKm.toFixed(2);
+        }
+
+        // Pace drifts subtly between 5'05" and 5'18"
+        paceTick += dt;
+        if (paceEl && paceTick > 1.6) {
+            paceTick = 0;
+            paceSec += (Math.random() < 0.5 ? -1 : 1);
+            if (paceSec < 5) { paceSec = 5; }
+            if (paceSec > 18) { paceSec = 18; }
+            paceEl.textContent = `${paceMin}'${String(paceSec).padStart(2, '0')}"`;
+        }
+
+        requestAnimationFrame(tick);
+    };
+    requestAnimationFrame(tick);
 }
 
 function initMottoReveal() {
     const motto = document.querySelector('[data-motto]');
     if (!motto) return;
     const text = motto.textContent.trim();
-    motto.textContent = '';
+    motto.innerHTML = '';
+    let __letterIndex = 0;
+    text.split(' ').forEach((word, wi, arr) => {
+        const wordSpan = document.createElement('span');
+        wordSpan.className = 'motto-word';
+        [...word].forEach((ch) => {
+            const span = document.createElement('span');
+            span.className = 'motto-letter';
+            span.textContent = ch;
+            span.style.setProperty('--d', `${600 + __letterIndex * 30}ms`);
+            wordSpan.appendChild(span);
+            __letterIndex++;
+        });
+        motto.appendChild(wordSpan);
+        if (wi < arr.length - 1) motto.appendChild(document.createTextNode(' '));
+    });
+    requestAnimationFrame(() => motto.classList.add('is-revealed'));
+    return;
+    // legacy:
     [...text].forEach((ch, i) => {
         const span = document.createElement('span');
         span.className = 'motto-letter';
