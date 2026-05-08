@@ -1,13 +1,11 @@
 // =========================================================================
-// scene.js — the one Three.js moment.
-// A low-poly horizon: terrain stretching to a foggy horizon, ember-lit
-// peaks, dust particles drifting toward the camera. Camera dollies forward
-// continuously to create the "race ahead" feeling.
+// scene.js — the one Three.js moment, now reading as sustainability/grid.
+// A leaf-green wireframe grid floor receding to a glowing horizon, with
+// a subtle data-node pulse layer and a slow forward camera dolly.
 //
 // Bails out gracefully on:
 //   - prefers-reduced-motion: reduce
 //   - low-end devices (< 4 cores or < 4 GB RAM)
-//   - touch / mobile (we still render but at half DPR & smaller terrain)
 // =========================================================================
 
 import * as THREE from 'three';
@@ -17,17 +15,20 @@ const isTouch = window.matchMedia('(hover: none), (pointer: coarse)').matches;
 const lowEnd  = (navigator.hardwareConcurrency && navigator.hardwareConcurrency < 4)
              || (navigator.deviceMemory && navigator.deviceMemory < 4);
 
+const COLOR_LEAF = 0x7ad672;
+const COLOR_LEAF_HI = 0xa3e89e;
+const COLOR_FOG = 0x081008;
+const COLOR_BG = 0x0b0a08;
+
 export function initScene(canvas) {
     if (!canvas || reduce) return null;
 
-    // ---- Sizing ----
     const dprCap = lowEnd ? 1 : (isTouch ? 1.25 : 1.5);
     const dpr    = Math.min(window.devicePixelRatio || 1, dprCap);
 
     let w = canvas.clientWidth || window.innerWidth;
     let h = canvas.clientHeight || window.innerHeight;
 
-    // ---- Renderer ----
     const renderer = new THREE.WebGLRenderer({
         canvas, alpha: true, antialias: !lowEnd, powerPreference: 'high-performance'
     });
@@ -35,110 +36,115 @@ export function initScene(canvas) {
     renderer.setSize(w, h, false);
     renderer.setClearColor(0x000000, 0);
 
-    // ---- Scene ----
     const scene = new THREE.Scene();
-    const fogColor = new THREE.Color(0x0b0a08);
-    scene.fog = new THREE.Fog(fogColor, 18, 70);
+    scene.fog = new THREE.Fog(COLOR_FOG, 14, 60);
 
-    // ---- Camera ----
-    const camera = new THREE.PerspectiveCamera(55, w / h, 0.1, 200);
-    camera.position.set(0, 4.2, 16);
-    camera.lookAt(0, 1.2, -6);
+    const camera = new THREE.PerspectiveCamera(58, w / h, 0.1, 200);
+    camera.position.set(0, 3.4, 14);
+    camera.lookAt(0, 1.6, -6);
 
     // ---- Lights ----
-    const amb = new THREE.AmbientLight(0xfff1d6, 0.35);
+    const amb = new THREE.AmbientLight(0xb6f6ad, 0.4);
     scene.add(amb);
+    const key = new THREE.DirectionalLight(COLOR_LEAF_HI, 1.0);
+    key.position.set(0, 6, -8);
+    scene.add(key);
 
-    const sun = new THREE.DirectionalLight(0xff7d4d, 1.4);
-    sun.position.set(-6, 7, -8);
-    scene.add(sun);
-
-    const fill = new THREE.DirectionalLight(0x6b8aff, 0.25);
-    fill.position.set(8, 4, 6);
-    scene.add(fill);
-
-    // ---- Terrain ----
-    const segX = lowEnd ? 50 : 90;
-    const segZ = lowEnd ? 40 : 70;
-    const terrainGeom = new THREE.PlaneGeometry(80, 200, segX, segZ);
-    terrainGeom.rotateX(-Math.PI / 2);
-
-    // Cheap layered noise (sum of trig)
-    const positions = terrainGeom.attributes.position;
-    const noise = (x, z) => {
-        return Math.sin(x * 0.18) * 0.9
-             + Math.cos(z * 0.22) * 0.7
-             + Math.sin((x + z) * 0.12) * 0.5
-             + Math.cos((x - z) * 0.31) * 0.35;
-    };
-    for (let i = 0; i < positions.count; i++) {
-        const x = positions.getX(i);
-        const z = positions.getZ(i);
-        // distance falloff: stay flat near camera, get tall toward horizon
-        const dist = Math.max(0, -z);
-        const falloff = Math.min(1, dist / 30);
-        const n = noise(x, z);
-        positions.setY(i, n * 0.9 * falloff);
-    }
-    terrainGeom.computeVertexNormals();
-
-    const terrainMat = new THREE.MeshStandardMaterial({
-        color: 0x1a1410,
-        roughness: 0.95,
-        metalness: 0.0,
-        flatShading: true,
-        emissive: 0x150b04,
-        emissiveIntensity: 0.6
-    });
-    const terrain = new THREE.Mesh(terrainGeom, terrainMat);
-    terrain.position.y = -1.2;
-    scene.add(terrain);
-
-    // Wireframe overlay on horizon (subtle topographic feel)
-    const wireMat = new THREE.MeshBasicMaterial({
-        color: 0xff5b1f,
+    // ---- Grid floor (foreground) ----
+    // Custom plane with wireframe — finer grid + glowing line aesthetic
+    const segs = lowEnd ? 36 : 60;
+    const planeGeom = new THREE.PlaneGeometry(120, 200, segs, segs * 1.6 | 0);
+    planeGeom.rotateX(-Math.PI / 2);
+    const planeMat = new THREE.MeshBasicMaterial({
+        color: COLOR_LEAF,
         wireframe: true,
         transparent: true,
-        opacity: 0.06
+        opacity: 0.22
     });
-    const wireMesh = new THREE.Mesh(terrainGeom, wireMat);
-    wireMesh.position.y = -1.18;
-    scene.add(wireMesh);
+    const grid = new THREE.Mesh(planeGeom, planeMat);
+    grid.position.y = -1.1;
+    scene.add(grid);
 
-    // ---- Horizon line: emissive thin plane across the back ----
-    const horizonGeom = new THREE.PlaneGeometry(120, 0.04);
+    // ---- Grid floor (background, larger + dimmer for parallax depth) ----
+    const planeGeom2 = new THREE.PlaneGeometry(280, 320, 24, 36);
+    planeGeom2.rotateX(-Math.PI / 2);
+    const planeMat2 = new THREE.MeshBasicMaterial({
+        color: COLOR_LEAF,
+        wireframe: true,
+        transparent: true,
+        opacity: 0.07
+    });
+    const gridFar = new THREE.Mesh(planeGeom2, planeMat2);
+    gridFar.position.y = -1.0;
+    scene.add(gridFar);
+
+    // ---- Horizon line ----
+    const horizonGeom = new THREE.PlaneGeometry(220, 0.05);
     const horizonMat = new THREE.MeshBasicMaterial({
-        color: 0xff7d4d, transparent: true, opacity: 0.55
+        color: COLOR_LEAF_HI, transparent: true, opacity: 0.7
     });
     const horizon = new THREE.Mesh(horizonGeom, horizonMat);
-    horizon.position.set(0, 1.2, -50);
+    horizon.position.set(0, 0.3, -52);
     scene.add(horizon);
 
-    // ---- Particles (wind dust) ----
-    const partCount = lowEnd ? 280 : 600;
+    // ---- Horizon glow plane (soft bloom-ish gradient via vertex colors) ----
+    const glowGeom = new THREE.PlaneGeometry(220, 14, 1, 1);
+    const glowColors = new Float32Array([
+        // top-left, top-right, bottom-left, bottom-right
+        0.48, 0.84, 0.45,  0.48, 0.84, 0.45,
+        0, 0, 0,           0, 0, 0
+    ]);
+    glowGeom.setAttribute('color', new THREE.BufferAttribute(glowColors, 3));
+    const glowMat = new THREE.MeshBasicMaterial({
+        vertexColors: true, transparent: true, opacity: 0.28, depthWrite: false
+    });
+    const glow = new THREE.Mesh(glowGeom, glowMat);
+    glow.position.set(0, 6.5, -52);
+    scene.add(glow);
+
+    // ---- Data-node particles ----
+    const partCount = lowEnd ? 220 : 480;
     const partGeom = new THREE.BufferGeometry();
     const partPos = new Float32Array(partCount * 3);
     const partVel = new Float32Array(partCount);
+    const partFlick = new Float32Array(partCount);
     for (let i = 0; i < partCount; i++) {
-        partPos[i * 3 + 0] = (Math.random() - 0.5) * 60;
-        partPos[i * 3 + 1] = Math.random() * 8 + 0.5;
-        partPos[i * 3 + 2] = (Math.random() - 0.5) * 80 - 10;
-        partVel[i] = 0.04 + Math.random() * 0.12;
+        partPos[i * 3 + 0] = (Math.random() - 0.5) * 70;
+        partPos[i * 3 + 1] = Math.random() * 7 + 0.2;
+        partPos[i * 3 + 2] = (Math.random() - 0.5) * 90 - 12;
+        partVel[i] = 0.04 + Math.random() * 0.14;
+        partFlick[i] = Math.random() * Math.PI * 2;
     }
     partGeom.setAttribute('position', new THREE.BufferAttribute(partPos, 3));
 
     const partMat = new THREE.PointsMaterial({
-        color: 0xfff1d6,
-        size: 0.04,
+        color: COLOR_LEAF_HI,
+        size: 0.05,
         transparent: true,
-        opacity: 0.55,
+        opacity: 0.7,
         depthWrite: false,
         sizeAttenuation: true
     });
     const points = new THREE.Points(partGeom, partMat);
     scene.add(points);
 
-    // ---- Mouse parallax target ----
+    // ---- Pulse rings: occasional concentric ring sweeping outward from origin ----
+    const pulseGeom = new THREE.RingGeometry(0.5, 0.55, 64);
+    pulseGeom.rotateX(-Math.PI / 2);
+    const pulses = [];
+    const pulseCount = 3;
+    for (let i = 0; i < pulseCount; i++) {
+        const m = new THREE.MeshBasicMaterial({
+            color: COLOR_LEAF_HI, transparent: true, opacity: 0, side: THREE.DoubleSide, depthWrite: false
+        });
+        const mesh = new THREE.Mesh(pulseGeom, m);
+        mesh.position.set(0, -1.08, -8);
+        mesh.scale.set(1, 1, 1);
+        scene.add(mesh);
+        pulses.push({ mesh, mat: m, t: -i * 1.7, period: 5 + Math.random() * 1.5 });
+    }
+
+    // ---- Mouse parallax ----
     let mx = 0, my = 0;
     let mxL = 0, myL = 0;
     if (!isTouch) {
@@ -148,7 +154,6 @@ export function initScene(canvas) {
         }, { passive: true });
     }
 
-    // ---- Resize ----
     const onResize = () => {
         const rect = canvas.getBoundingClientRect();
         w = rect.width; h = rect.height;
@@ -158,13 +163,11 @@ export function initScene(canvas) {
     };
     window.addEventListener('resize', onResize);
 
-    // ---- Animate ----
     let running = true;
     let raf = null;
     let t = 0;
-    let cameraDollyZ = 16;
+    let dollyZ = 14;
 
-    // Pause when offscreen
     const io = new IntersectionObserver((entries) => {
         entries.forEach((entry) => {
             running = entry.isIntersecting;
@@ -178,60 +181,72 @@ export function initScene(canvas) {
         raf = requestAnimationFrame(tick);
         t += 0.005;
 
-        // Smooth mouse parallax
         mxL += (mx - mxL) * 0.05;
         myL += (my - myL) * 0.05;
 
-        // Camera dolly: slow continuous push forward, recycled
-        cameraDollyZ -= 0.012;
-        if (cameraDollyZ < -2) cameraDollyZ = 16;
-        camera.position.x = mxL * 1.5;
-        camera.position.y = 4.2 + myL * 0.4;
-        camera.position.z = cameraDollyZ;
-        camera.lookAt(mxL * 0.6, 1.2, -6);
+        // Camera dolly: continuous forward motion, recycle
+        dollyZ -= 0.02;
+        if (dollyZ < -2) dollyZ = 14;
+        camera.position.x = mxL * 1.3;
+        camera.position.y = 3.4 + myL * 0.3;
+        camera.position.z = dollyZ;
+        camera.lookAt(mxL * 0.5, 1.6, -6);
 
-        // Terrain breathes slightly
-        terrain.position.z = Math.sin(t * 0.4) * 0.4;
-        wireMesh.position.z = terrain.position.z;
+        // Grids drift toward camera so motion is felt even when camera resets
+        grid.position.z = (t * 4) % 4;
+        gridFar.position.z = (t * 1.5) % 4;
 
-        // Particles drift toward camera; recycle when they pass
+        // Particles drift toward camera, recycled
         const arr = partGeom.attributes.position.array;
         for (let i = 0; i < partCount; i++) {
             arr[i * 3 + 2] += partVel[i];
-            arr[i * 3 + 0] += Math.sin(t * 0.6 + i) * 0.004;
+            arr[i * 3 + 0] += Math.sin(t * 0.5 + partFlick[i]) * 0.003;
             if (arr[i * 3 + 2] > camera.position.z + 4) {
-                arr[i * 3 + 2] = camera.position.z - 80;
-                arr[i * 3 + 0] = (Math.random() - 0.5) * 60;
-                arr[i * 3 + 1] = Math.random() * 8 + 0.5;
+                arr[i * 3 + 2] = camera.position.z - 90;
+                arr[i * 3 + 0] = (Math.random() - 0.5) * 70;
+                arr[i * 3 + 1] = Math.random() * 7 + 0.2;
             }
         }
         partGeom.attributes.position.needsUpdate = true;
 
-        // Subtle horizon flicker
-        horizon.material.opacity = 0.45 + Math.sin(t * 1.5) * 0.1;
+        // Pulse rings: sweep outward over `period`, fade as they go
+        pulses.forEach((p) => {
+            p.t += 0.01;
+            const phase = ((p.t % p.period) + p.period) % p.period;
+            const k = phase / p.period;
+            const scale = 1 + k * 60;
+            p.mesh.scale.set(scale, 1, scale);
+            p.mat.opacity = (1 - k) * 0.45 * Math.max(0, 1 - k * 0.3);
+        });
+
+        // Horizon flicker
+        horizon.material.opacity = 0.55 + Math.sin(t * 1.4) * 0.12;
 
         renderer.render(scene, camera);
     };
 
-    // Reveal canvas once first frame is ready
     requestAnimationFrame(() => {
         canvas.classList.add('is-ready');
         tick();
     });
 
-    // ---- Cleanup ----
     return () => {
         running = false;
         if (raf) cancelAnimationFrame(raf);
         io.disconnect();
         window.removeEventListener('resize', onResize);
-        terrainGeom.dispose();
-        terrainMat.dispose();
-        wireMat.dispose();
+        planeGeom.dispose();
+        planeMat.dispose();
+        planeGeom2.dispose();
+        planeMat2.dispose();
         horizonGeom.dispose();
         horizonMat.dispose();
+        glowGeom.dispose();
+        glowMat.dispose();
         partGeom.dispose();
         partMat.dispose();
+        pulseGeom.dispose();
+        pulses.forEach((p) => p.mat.dispose());
         renderer.dispose();
     };
 }

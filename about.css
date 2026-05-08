@@ -26,10 +26,13 @@
 .about-portrait img {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: 30% center;
+    object-position: 12% center;
     transform: scale(1.05);
     filter: contrast(1.05) saturate(1.05);
     transition: transform 8s var(--ease);
+}
+@media (max-width: 900px) {
+    .about-portrait img { object-position: 18% center; }
 }
 .about-portrait:hover img { transform: scale(1.08); }
 .about-portrait-veil {

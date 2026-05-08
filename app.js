@@ -7,6 +7,7 @@
 
 import { initCursor, initMagnetic } from './cursor.js';
 import { initTransitions } from './transitions.js';
+import { initIntro } from './intro.js';
 // scene.js is dynamically imported only on pages that have [data-hero],
 // because it depends on three.js (resolved via the importmap on index.html).
 
@@ -19,6 +20,11 @@ function ready(fn) {
 }
 
 ready(() => {
+    // Boot the intro first; everything else still initializes in parallel
+    // so smooth scroll, the 3D scene, and reveals are ready by the time
+    // the intro hands off (~5s).
+    initIntro();
+
     initSmoothScroll();
     initTransitions();
     initCursor();

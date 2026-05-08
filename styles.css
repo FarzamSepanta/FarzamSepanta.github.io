@@ -113,6 +113,210 @@ html.lenis, html.lenis body { height: auto; }
     background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160' viewBox='0 0 160 160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.6 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
 }
 
+/* ------ Intro / loading overlay (home page only) ------
+   Sits over the hero on first visit, plays a 5s sequence:
+     0.0–3.5s: "FARZAM SEPANTA" centered on one line, both layers visible
+     3.5–4.7s: morph — FARZAM keeps fill, SEPANTA outline traces in via
+               clip-path, fill fades; both words pulled along curved paths
+               toward their hero positions
+     4.7–5.0s: intro fades; hero photo slides in from right
+*/
+.intro {
+    position: fixed;
+    inset: 0;
+    z-index: 9700;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background: var(--bg);
+    overflow: hidden;
+    transform: translateZ(0);
+    pointer-events: none;
+}
+.intro.is-active { pointer-events: auto; }
+.intro.is-gone   { display: none; }
+
+/* Procedural grid backdrop (CSS-only — no canvas, no asset) */
+.intro-grid {
+    position: absolute; inset: 0;
+    background-image:
+        linear-gradient(rgba(122, 214, 114, 0.07) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(122, 214, 114, 0.07) 1px, transparent 1px);
+    background-size: 60px 60px, 60px 60px;
+    background-position: center center;
+    -webkit-mask-image: radial-gradient(ellipse at center, black 25%, transparent 80%);
+            mask-image: radial-gradient(ellipse at center, black 25%, transparent 80%);
+    animation: intro-grid-drift 16s linear infinite;
+}
+@keyframes intro-grid-drift {
+    from { background-position: 0 0, 0 0; }
+    to   { background-position: 60px 60px, 60px 60px; }
+}
+.intro-vignette {
+    position: absolute; inset: 0;
+    background:
+        radial-gradient(ellipse at center, transparent 30%, var(--bg) 90%),
+        radial-gradient(ellipse at 50% 0%, rgba(122, 214, 114, 0.06) 0%, transparent 50%),
+        radial-gradient(ellipse at 50% 100%, rgba(255, 91, 31, 0.04) 0%, transparent 50%);
+}
+
+.intro-stage {
+    position: relative;
+    z-index: 1;
+    width: 100%;
+    height: 100%;
+    display: grid;
+    grid-template-rows: auto 1fr auto auto;
+    padding: var(--pad-md) var(--pad);
+    gap: var(--pad);
+    align-items: center;
+    justify-items: center;
+}
+
+.intro-meta {
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    color: var(--fg-soft);
+}
+.intro-meta--bottom {
+    align-items: end;
+}
+
+/* The big name on one line, two words layered with both fill + stroke */
+.intro-name {
+    display: flex;
+    align-items: baseline;
+    justify-content: center;
+    flex-wrap: nowrap;
+    gap: clamp(0.5rem, 1.2vw, 1.6rem);
+    font-family: var(--font-display);
+    font-size: clamp(2.6rem, 1rem + 9vw, 9rem);
+    line-height: 0.85;
+    letter-spacing: 0.005em;
+    text-transform: uppercase;
+    color: var(--fg);
+    will-change: transform;
+}
+.intro-word {
+    position: relative;
+    display: inline-block;
+    will-change: transform, opacity;
+}
+.intro-word__fill,
+.intro-word__stroke {
+    display: inline-block;
+}
+.intro-word__stroke {
+    position: absolute;
+    inset: 0;
+    color: transparent;
+    -webkit-text-stroke: 1.2px var(--fg);
+            text-stroke: 1.2px var(--fg);
+    /* Initial state: outline draws on left-to-right via clip-path */
+    clip-path: inset(0 100% 0 0);
+    -webkit-clip-path: inset(0 100% 0 0);
+    transition: clip-path 1.4s var(--ease), -webkit-clip-path 1.4s var(--ease);
+}
+/* Once intro is mounted, draw the strokes in for the static phase */
+.intro.is-drawn .intro-word__stroke {
+    clip-path: inset(0 0 0 0);
+    -webkit-clip-path: inset(0 0 0 0);
+}
+
+/* Morph state: FARZAM loses stroke, SEPANTA loses fill */
+.intro.is-morphing .intro-word--first .intro-word__stroke {
+    transition: opacity 0.7s var(--ease);
+    opacity: 0;
+}
+.intro.is-morphing .intro-word--last [data-intro-last-fill] {
+    transition: opacity 0.7s var(--ease);
+    opacity: 0;
+}
+/* Re-trace SEPANTA stroke during morph: clip from right back to left then in
+   again, so the outline visibly "redraws" along its path */
+.intro.is-morphing .intro-word--last .intro-word__stroke {
+    animation: introRetrace 1.2s var(--ease) forwards;
+}
+@keyframes introRetrace {
+    0%   { clip-path: inset(0 0 0 0);    -webkit-clip-path: inset(0 0 0 0); }
+    35%  { clip-path: inset(0 0 0 100%); -webkit-clip-path: inset(0 0 0 100%); }
+    36%  { clip-path: inset(0 100% 0 0); -webkit-clip-path: inset(0 100% 0 0); }
+    100% { clip-path: inset(0 0 0 0);    -webkit-clip-path: inset(0 0 0 0); }
+}
+
+.intro-tagline {
+    display: inline-flex;
+    align-items: center;
+    gap: 1rem;
+    font-family: var(--font-mono);
+    font-size: var(--tx-meta);
+    text-transform: uppercase;
+    letter-spacing: 0.28em;
+    color: var(--leaf);
+    opacity: 0;
+    transform: translateY(0.5rem);
+    animation: introFadeUp 0.9s var(--ease) 0.6s forwards;
+}
+.intro-tagline-line {
+    width: clamp(1.2rem, 4vw, 3rem);
+    height: 1px;
+    background: var(--leaf);
+    opacity: 0.7;
+}
+@keyframes introFadeUp {
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.intro-progress {
+    position: relative;
+    flex: 1 1 clamp(120px, 30vw, 360px);
+    max-width: 360px;
+    height: 1px;
+    background: var(--line);
+    overflow: hidden;
+}
+.intro-progress-fill {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(90deg, var(--leaf), var(--leaf-soft));
+    transform: scaleX(0);
+    transform-origin: left center;
+    box-shadow: 0 0 8px rgba(122, 214, 114, 0.55);
+}
+
+/* Fade out the whole intro at the end */
+.intro.is-leaving {
+    transition: opacity 0.7s var(--ease), transform 0.9s var(--ease);
+    opacity: 0;
+    transform: scale(1.02);
+}
+
+@media (max-width: 700px) {
+    .intro-meta { font-size: 0.6rem; }
+    .intro-tagline { letter-spacing: 0.18em; }
+}
+
+/* ------ Hero photo: hidden until intro releases it (only on home page) ------ */
+body[data-page="home"] .hero-photo {
+    opacity: 0;
+    transform: translate3d(110%, 0, 0);
+    will-change: transform, opacity;
+}
+body[data-page="home"].is-photo-in .hero-photo {
+    transition: transform 1.4s cubic-bezier(0.22, 1, 0.36, 1), opacity 0.7s var(--ease);
+    opacity: 1;
+    transform: translate3d(0, 0, 0);
+}
+/* Skip the slide-in entirely if user prefers reduced motion */
+@media (prefers-reduced-motion: reduce) {
+    body[data-page="home"] .hero-photo {
+        opacity: 1; transform: none;
+    }
+}
+
 /* ------ Page transition curtain ------
    Defaults to covering the page, then animates out via CSS so the reveal
    works even without JS. JS overrides the CSS animation on click to bring
@@ -388,12 +592,18 @@ html.lenis, html.lenis body { height: auto; }
 .hero-photo img {
     width: 100%; height: 100%;
     object-fit: cover;
-    object-position: 30% center;
+    object-position: 18% center;
     filter: contrast(1.05) saturate(1.05);
     transform: scale(1.08);
     transition: transform 6s var(--ease);
 }
 .hero-photo.is-loaded img { transform: scale(1); }
+@media (max-width: 980px) {
+    .hero-photo img { object-position: 22% center; }
+}
+@media (max-width: 600px) {
+    .hero-photo img { object-position: 25% center; }
+}
 .hero-photo-veil {
     position: absolute; inset: 0;
     background: linear-gradient(180deg, rgba(11,10,8,0.05) 0%, rgba(11,10,8,0.45) 100%),
