@@ -1,0 +1,4 @@
+User-Agent: *
+Allow: /
+
+Sitemap: https://farzamsepanta.github.io/sitemap.xml
