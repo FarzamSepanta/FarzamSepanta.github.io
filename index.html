@@ -3,60 +3,175 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Farzam Sepanta</title>
-    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    <meta name="theme-color" content="#0b0a08">
+    <meta name="description" content="Farzam Sepanta — CEO at Neutra Solutions, PhD in Building Engineering, net-zero transition expert. The race to net zero needs all of us.">
+    <title>Farzam Sepanta — The race to net zero</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Fraunces:ital,opsz,wght,SOFT@0,9..144,300..900,0..100;1,9..144,300..900,0..100&family=Inter:wght@300;400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="styles.css">
+
+    <link rel="preload" as="image" href="images/LandingImage.jpg" fetchpriority="high">
 </head>
-<body>
-    <div class="background-container">
-        <div class="grayscale-reveal"></div>
-        <div class="slider-line"></div>
+<body data-page="home">
+    <a class="skip-link" href="#main">Skip to content</a>
+
+    <div class="grain" aria-hidden="true"></div>
+    <div class="curtain" data-curtain aria-hidden="true">
+        <div class="curtain-mark"><span>Farzam Sepanta</span><span>Net Zero · Field Notes</span></div>
     </div>
+    <div class="cursor" data-cursor aria-hidden="true"></div>
+    <div class="cursor-dot" data-cursor-dot aria-hidden="true"></div>
+    <div class="race-progress" aria-hidden="true"><span data-progress></span></div>
 
-    <div class="container">
-        <header>
-            <h1>Farzam Sepanta</h1>
-            <p class="subtitle">CEO at Neutra Solutions Inc.</p>
-            <p class="subtitle">PhD in Building Engineering & Net-Zero Transition Expert</p>
-        </header>
-
-        <nav>
-            <ul>
-                <li><a href="about.html">About</a></li>
-                <li><a href="https://scholar.google.com/citations?user=2Ut5XB0AAAAJ&hl=en&oi=ao" target="_blank">Research</a></li>
-                <li><a href="magazine.html">Magazine</a></li>
-                <li><a href="media.html">Media</a></li>
-                <li><a href="https://www.youtube.com/@FarzamSepanta" target="_blank">YouTube</a></li>
-                <li><a href="https://www.linkedin.com/in/farzam-sepanta-0277a421a/" target="_blank">Connect</a></li>
-            </ul>
+    <header class="topbar" data-reveal>
+        <a class="brand" href="index.html" data-magnetic>
+            <span class="brand-mark">FS</span>
+            <span class="brand-pulse" aria-hidden="true"></span>
+        </a>
+        <nav class="topnav" data-nav aria-label="Primary">
+            <a href="about.html" data-magnetic data-internal>About</a>
+            <a href="https://scholar.google.com/citations?user=2Ut5XB0AAAAJ&hl=en&oi=ao" target="_blank" rel="noopener" data-magnetic>Research<span class="ext" aria-hidden="true">↗</span></a>
+            <a href="magazine.html" data-magnetic data-internal>Magazine</a>
+            <a href="media.html" data-magnetic data-internal>Media</a>
+            <a href="https://www.youtube.com/@FarzamSepanta" target="_blank" rel="noopener" data-magnetic>YouTube<span class="ext" aria-hidden="true">↗</span></a>
+            <a href="https://www.linkedin.com/in/farzam-sepanta-0277a421a/" target="_blank" rel="noopener" data-magnetic>Connect<span class="ext" aria-hidden="true">↗</span></a>
         </nav>
-        
-        <div class="motto"></div>
-    </div>
+        <span class="topbar-meta" aria-hidden="true">
+            <span class="topbar-dot"></span>
+            <span>Live · Race in progress</span>
+        </span>
+    </header>
 
-    <script>
-        const motto = "The race to net zero needs all of us";
-        const mottoDiv = document.querySelector('.motto');
-        
-        motto.split('').forEach((letter, index) => {
-            const span = document.createElement('span');
-            span.className = 'motto-letter';
-            span.textContent = letter === ' ' ? '\u00A0' : letter;
-            span.style.animationDelay = `${(index * 0.05) + 0.5}s`;
-            mottoDiv.appendChild(span);
-        });
+    <main id="main">
+        <section class="hero" data-hero>
+            <canvas class="hero-scene" data-scene aria-hidden="true"></canvas>
 
-        document.querySelector('a[href="about.html"]').addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Create a temporary div for transition
-            const transition = document.createElement('div');
-            transition.className = 'page-transition';
-            document.body.appendChild(transition);
-            
-            // Immediately navigate to about.html with a special parameter
-            window.location.href = 'about.html?animate=true';
-        });
+            <div class="hero-stage">
+                <div class="hero-photo" data-parallax data-depth="0.04">
+                    <img src="images/LandingImage.jpg" alt="Farzam Sepanta running on an open road" loading="eager" decoding="async">
+                    <div class="hero-photo-veil" aria-hidden="true"></div>
+                </div>
+
+                <div class="hero-meta meta-tl">
+                    <span class="meta-stamp"><span class="meta-tick"></span>N° 01</span>
+                    <span class="meta-stamp">Field Notes / 2026</span>
+                </div>
+                <div class="hero-meta meta-tr">
+                    <span class="meta-stamp">45.4215° N · 75.6972° W</span>
+                </div>
+
+                <h1 class="hero-name" data-split>
+                    <span class="hero-name-row" aria-hidden="true">Farzam</span>
+                    <span class="hero-name-row hero-name-row--alt" aria-hidden="true">Sepanta</span>
+                    <span class="visually-hidden">Farzam Sepanta</span>
+                </h1>
+
+                <p class="hero-role" data-reveal>
+                    <span>CEO, Neutra Solutions Inc.</span>
+                    <span class="hero-role-sep" aria-hidden="true">·</span>
+                    <span>PhD, Building Engineering</span>
+                    <span class="hero-role-sep" aria-hidden="true">·</span>
+                    <span>Net-Zero Transition</span>
+                </p>
+
+                <p class="hero-motto" data-motto>The race to net zero needs all of us.</p>
+
+                <div class="hero-cue" aria-hidden="true">
+                    <span>Scroll</span>
+                    <span class="hero-cue-line"></span>
+                    <span>Begin</span>
+                </div>
+            </div>
+        </section>
+
+        <section class="strip" data-reveal>
+            <span class="strip-eyebrow">A field practice</span>
+            <p class="strip-lede">
+                A practitioner translating <em>research</em> into <em>policy</em>, <em>buildings</em>, and the <em>workplaces</em> we actually live in — with the highest <span class="hl">net present value</span> for a low-carbon future.
+            </p>
+        </section>
+
+        <section class="dest" aria-labelledby="dest-title">
+            <header class="dest-head">
+                <span class="dest-eyebrow">Destinations</span>
+                <h2 id="dest-title" class="dest-title">Choose your <em>course</em>.</h2>
+            </header>
+            <ul class="dest-list">
+                <li class="dest-item" data-reveal>
+                    <a href="about.html" data-internal data-magnetic>
+                        <span class="dest-num">01</span>
+                        <span class="dest-label">About</span>
+                        <span class="dest-sub">Bio · expertise · mission</span>
+                        <span class="dest-arrow" aria-hidden="true">→</span>
+                    </a>
+                </li>
+                <li class="dest-item" data-reveal>
+                    <a href="magazine.html" data-internal data-magnetic>
+                        <span class="dest-num">02</span>
+                        <span class="dest-label">Magazine</span>
+                        <span class="dest-sub">Long-form for the public</span>
+                        <span class="dest-arrow" aria-hidden="true">→</span>
+                    </a>
+                </li>
+                <li class="dest-item" data-reveal>
+                    <a href="media.html" data-internal data-magnetic>
+                        <span class="dest-num">03</span>
+                        <span class="dest-label">Media</span>
+                        <span class="dest-sub">Press, podcasts, broadcast</span>
+                        <span class="dest-arrow" aria-hidden="true">→</span>
+                    </a>
+                </li>
+                <li class="dest-item" data-reveal>
+                    <a href="https://scholar.google.com/citations?user=2Ut5XB0AAAAJ&hl=en&oi=ao" target="_blank" rel="noopener" data-magnetic>
+                        <span class="dest-num">04</span>
+                        <span class="dest-label">Research</span>
+                        <span class="dest-sub">Google Scholar</span>
+                        <span class="dest-arrow" aria-hidden="true">↗</span>
+                    </a>
+                </li>
+                <li class="dest-item" data-reveal>
+                    <a href="https://www.youtube.com/@FarzamSepanta" target="_blank" rel="noopener" data-magnetic>
+                        <span class="dest-num">05</span>
+                        <span class="dest-label">YouTube</span>
+                        <span class="dest-sub">Field talks · interviews</span>
+                        <span class="dest-arrow" aria-hidden="true">↗</span>
+                    </a>
+                </li>
+                <li class="dest-item" data-reveal>
+                    <a href="https://www.linkedin.com/in/farzam-sepanta-0277a421a/" target="_blank" rel="noopener" data-magnetic>
+                        <span class="dest-num">06</span>
+                        <span class="dest-label">Connect</span>
+                        <span class="dest-sub">LinkedIn</span>
+                        <span class="dest-arrow" aria-hidden="true">↗</span>
+                    </a>
+                </li>
+            </ul>
+        </section>
+
+        <footer class="ftr">
+            <p class="ftr-motto">The race to <span class="hl">net zero</span> needs all of us.</p>
+            <div class="ftr-meta">
+                <span>© 2026 Farzam Sepanta</span>
+                <span class="ftr-sep" aria-hidden="true">·</span>
+                <span>Built lean · runs further</span>
+                <span class="ftr-sep" aria-hidden="true">·</span>
+                <a href="https://www.linkedin.com/in/farzam-sepanta-0277a421a/" target="_blank" rel="noopener">Get in touch</a>
+            </div>
+        </footer>
+    </main>
+
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/gsap.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/gsap@3.12.5/dist/ScrollTrigger.min.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/lenis@1.0.45/dist/lenis.min.js" defer></script>
+    <script type="importmap">
+    {
+        "imports": {
+            "three": "https://cdn.jsdelivr.net/npm/three@0.160.0/build/three.module.js"
+        }
+    }
     </script>
+    <script type="module" src="app.js"></script>
 </body>
-</html> 
+</html>
